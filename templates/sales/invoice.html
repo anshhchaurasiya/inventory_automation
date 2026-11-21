@@ -1,0 +1,664 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Purchase Invoice{% endblock %}
+
+{% block extra_css %}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f3f4f6;
+        color: #1f2937;
+        padding: 30px 15px;
+    }
+
+    .invoice-container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .top-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 25px;
+    }
+
+    .brand h1 {
+        font-size: 28px;
+        color: #111827;
+    }
+
+    .brand p {
+        color: #6b7280;
+        margin-top: 7px;
+        font-size: 13px;
+    }
+
+    .invoice-heading {
+        text-align: right;
+    }
+
+    .invoice-heading h2 {
+        font-size: 30px;
+        color: #2563eb;
+        margin-bottom: 10px;
+    }
+
+    .invoice-heading p {
+        font-size: 13px;
+        margin: 5px 0;
+        color: #4b5563;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #dcfce7;
+        color: #15803d;
+        font-size: 12px;
+        font-weight: bold;
+        margin-top: 8px;
+    }
+
+    .section {
+        margin-top: 30px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #111827;
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .detail-box {
+        background: #f9fafb;
+        padding: 18px;
+        border-radius: 7px;
+    }
+
+    .detail-box p {
+        font-size: 13px;
+        margin: 9px 0;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+    }
+
+    .detail-box strong {
+        color: #374151;
+    }
+
+    .business-details {
+        display: none;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 600px;
+    }
+
+    th {
+        background: #f3f4f6;
+        color: #374151;
+        font-size: 12px;
+        text-align: left;
+        padding: 14px 10px;
+    }
+
+    td {
+        padding: 15px 10px;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 13px;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .product-name {
+        font-weight: bold;
+        color: #111827;
+    }
+
+    .sku {
+        color: #6b7280;
+        font-size: 11px;
+        margin-top: 5px;
+    }
+
+    .summary {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 25px;
+    }
+
+    .summary-box {
+        width: 280px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        font-size: 14px;
+    }
+
+    .total-row {
+        border-top: 2px solid #111827;
+        margin-top: 5px;
+        padding-top: 15px;
+        font-size: 19px;
+        font-weight: bold;
+        color: #2563eb;
+    }
+
+    .payment-box {
+        background: #f9fafb;
+        padding: 18px;
+        border-radius: 7px;
+        font-size: 14px;
+    }
+
+    .notes {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        color: #4b5563;
+        margin-top: 10px;
+        font-size: 13px;
+    }
+
+    .footer {
+        border-top: 1px solid #e5e7eb;
+        margin-top: 35px;
+        padding-top: 20px;
+        text-align: center;
+        color: #6b7280;
+        font-size: 12px;
+        line-height: 1.7;
+    }
+
+    .actions {
+        max-width: 900px;
+        margin: 20px auto;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .print-btn {
+        background: #2563eb;
+        color: white;
+    }
+
+    .print-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .error {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 8px;
+        text-align: center;
+        color: #dc2626;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 12px 8px;
+        }
+
+        .invoice-container {
+            padding: 20px 15px;
+        }
+
+        .top-section {
+            flex-direction: column;
+        }
+
+        .invoice-heading {
+            text-align: left;
+        }
+
+        .details-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .summary-box {
+            width: 100%;
+        }
+
+        .actions {
+            padding: 0 8px;
+        }
+    }
+
+    /* PRINT STYLES */
+    @media print {
+
+        /* Hide sidebar */
+        .sidebar {
+            display: none !important;
+        }
+
+        /* Remove sidebar reserved space */
+        .main-content {
+            margin-left: 0 !important;
+            padding: 0 !important;
+            min-height: auto;
+        }
+
+        body {
+            background: white;
+            padding: 0;
+            margin: 0;
+        }
+
+        .invoice-container {
+            max-width: 100%;
+            width: 100%;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 15px;
+        }
+
+        .actions {
+            display: none !important;
+        }
+
+        .status {
+            border: 1px solid #15803d;
+        }
+
+        .detail-box,
+        .payment-box,
+        th {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+        }
+
+        @page {
+            size: A4;
+            margin: 12mm;
+        }
+    }
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div id="invoiceContent"></div>
+
+<script>
+
+    // Get purchase data from sessionStorage
+    const purchaseData = sessionStorage.getItem("invoiceData");
+
+    const container = document.getElementById("invoiceContent");
+
+    if (!purchaseData) {
+
+        container.innerHTML = `
+            <div class="error">
+                <h2>Invoice Data Not Found</h2>
+                <p>Please complete a purchase before opening the invoice.</p>
+            </div>
+        `;
+
+    } else {
+
+        try {
+            const data = JSON.parse(purchaseData);
+            renderInvoice(data);
+
+        } catch (error) {
+
+            container.innerHTML = `
+                <div class="error">
+                    <h2>Invalid Invoice Data</h2>
+                    <p>Unable to load the purchase details.</p>
+                </div>
+            `;
+        }
+    }
+
+
+    function formatCurrency(amount) {
+
+        return new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR"
+        }).format(Number(amount || 0));
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value ?? "").replace(/[&<>"']/g, function(char) {
+
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[char];
+
+        });
+    }
+
+
+    function renderInvoice(data) {
+
+        const customerType = String(data.customer_type || "").toLowerCase();
+        const isBusiness = customerType === "business";
+
+        const purchaseDate = data.purchase_date
+            ? new Date(data.purchase_date).toLocaleString("en-IN", {
+                dateStyle: "medium",
+                timeStyle: "short"
+            })
+            : "Not available";
+
+        const items = Array.isArray(data.items) ? data.items : [];
+
+        const productRows = items.map(item => `
+
+            <tr>
+
+                <td>
+                    <div class="product-name">
+                        ${escapeHTML(item.product_name)}
+                    </div>
+
+                    <div class="sku">
+                        SKU: ${escapeHTML(item.sku)}
+                    </div>
+                </td>
+
+                <td class="text-right">
+                    ${escapeHTML(item.quantity)}
+                </td>
+
+                <td class="text-right">
+                    ${formatCurrency(item.unit_price)}
+                </td>
+
+                <td class="text-right">
+                    ${formatCurrency(item.subtotal)}
+                </td>
+
+            </tr>
+
+        `).join("");
+
+
+        container.innerHTML = `
+
+            <div class="invoice-container">
+
+                <div class="top-section">
+
+                    <div class="brand">
+                        <h1>INVOICE</h1>
+                        <p>Purchase Transaction Details</p>
+                    </div>
+
+                    <div class="invoice-heading">
+
+                        <h2>INVOICE</h2>
+
+                        <p>
+                            <strong>Invoice ID:</strong>
+                            #${escapeHTML(data.id)}
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            ${escapeHTML(purchaseDate)}
+                        </p>
+
+                        <span class="status">
+                            ${escapeHTML(data.status)}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section details-grid">
+
+                    <div>
+
+                        <h3 class="section-title">Customer Details</h3>
+
+                        <div class="detail-box">
+
+                            <p>
+                                <strong>Name:</strong>
+                                ${escapeHTML(data.customer_name)}
+                            </p>
+
+                            <p>
+                                <strong>Phone:</strong>
+                                ${escapeHTML(data.phone)}
+                            </p>
+
+                            <p>
+                                <strong>Email:</strong>
+                                ${escapeHTML(data.email)}
+                            </p>
+
+                            <p>
+                                <strong>Customer Type:</strong>
+                                ${escapeHTML(data.customer_type)}
+                            </p>
+
+                            <div class="business-details"
+                                 style="display: ${isBusiness ? "block" : "none"}">
+
+                                <p>
+                                    <strong>Company:</strong>
+                                    ${escapeHTML(data.company_name)}
+                                </p>
+
+                                <p>
+                                    <strong>GSTIN:</strong>
+                                    ${escapeHTML(data.gstin)}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3 class="section-title">Billing Address</h3>
+
+                        <div class="detail-box">
+
+                            <p>
+                                ${escapeHTML(data.address).replace(/\n/g, "<br>")}
+                            </p>
+
+                            <p>
+                                ${escapeHTML(data.city)},
+                                ${escapeHTML(data.state)}
+                            </p>
+
+                            <p>
+                                <strong>Pincode:</strong>
+                                ${escapeHTML(data.pincode)}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section">
+
+                    <h3 class="section-title">Purchased Products</h3>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-right">Qty</th>
+                                    <th class="text-right">Unit Price</th>
+                                    <th class="text-right">Subtotal</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                ${productRows || `
+                                    <tr>
+                                        <td colspan="4">No products found.</td>
+                                    </tr>
+                                `}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary">
+
+                    <div class="summary-box">
+
+                        <div class="summary-row">
+
+                            <span>Total Items</span>
+
+                            <strong>
+                                ${items.reduce((sum, item) =>
+                                    sum + Number(item.quantity || 0), 0)}
+                            </strong>
+
+                        </div>
+
+                        <div class="summary-row total-row">
+
+                            <span>Grand Total</span>
+
+                            <span>
+                                ${formatCurrency(data.total_amount)}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section">
+
+                    <h3 class="section-title">Payment Details</h3>
+
+                    <div class="payment-box">
+
+                        <strong>Payment Method:</strong>
+                        ${escapeHTML(data.payment_method)}
+
+                    </div>
+
+                </div>
+
+
+                ${data.notes ? `
+
+                    <div class="section">
+
+                        <h3 class="section-title">Additional Notes</h3>
+
+                        <div class="notes">
+                            ${escapeHTML(data.notes)}
+                        </div>
+
+                    </div>
+
+                ` : ""}
+
+
+                <div class="footer">
+
+                    <p>Thank you for your purchase!</p>
+
+                    <p>
+                        This invoice represents your completed purchase transaction.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button class="print-btn" onclick="window.print()">
+                    Print / Save as PDF
+                </button>
+
+            </div>
+
+        `;
+    }
+
+</script>
+
+{% endblock %}

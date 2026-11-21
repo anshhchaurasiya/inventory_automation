@@ -1,0 +1,77 @@
+<style>
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #172033;
+        color: white;
+        padding: 25px 15px;
+        box-sizing: border-box;
+        overflow-y: auto;
+    }
+
+    .sidebar h2 {
+        font-size: 22px;
+        margin-bottom: 35px;
+        padding-left: 10px;
+    }
+
+    .sidebar .menu-title {
+        font-size: 11px;
+        color: #94a3b8;
+        margin: 25px 10px 12px;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
+
+    .sidebar a {
+        display: block;
+        color: #cbd5e1;
+        text-decoration: none;
+        padding: 12px 14px;
+        margin-bottom: 5px;
+        border-radius: 7px;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+        background: #334155;
+        color: white;
+    }
+
+    .sidebar a.active {
+        background: #2563eb;
+        color: white;
+    }
+</style>
+
+<div class="sidebar">
+
+    <h2>📦 InventoryPro</h2>
+
+    <p class="menu-title">MAIN MENU</p>
+
+    <a href="/dashboard/">🏠 Dashboard</a>
+    <a href="{% url 'product-list' %}">📦 Products</a>
+    <a href="{% url 'supplier-list' %}">🚚 Suppliers</a>
+    <a href="/categories/">📁 Categories</a>
+    <a href="{% url 'cart-page' %}">📁 Cart</a>
+
+
+
+
+    <p class="menu-title">INVENTORY</p>
+
+    <a href="/stock/">📊 Stock Management</a>
+    <a href="/purchase-orders/">🛒 Purchase Orders</a>
+    <a href="/sales-orders/">💰 Sales Orders</a>
+
+    <p class="menu-title">MANAGEMENT</p>
+
+    <a href="/reports/">📈 Reports</a>
+    <a href="/settings/">⚙️ Settings</a>
+
+</div>

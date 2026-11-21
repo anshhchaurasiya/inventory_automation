@@ -1,0 +1,197 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Supplier</title> -->
+
+{% extends 'base.html' %}
+
+{% block title %}Supplier{% endblock %}
+
+{% block extra_css %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 30px;
+        }
+
+        .container {
+            width: 450px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .back {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .required {
+            color: red;
+        }
+
+    </style>
+{% endblock %}
+<!-- </head> -->
+
+<!-- <body> -->
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Add New Supplier</h2>
+
+    {% if errors %}
+        <div class="error">
+            {% for field, messages in errors.items %}
+                <p>
+                    {{ field }}:
+                    {{ messages|join:", " }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" action="{% url 'supplier-add' %}">
+        {% csrf_token %}
+
+        <!-- Supplier Name -->
+        <label>Name <span class="required">*</span></label>
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Enter supplier name"
+            minlength="2"
+            maxlength="100"
+            required
+        >
+
+        <!-- Phone Number -->
+        <label>Phone Number <span class="required">*</span></label>
+
+        <input
+            type="tel"
+            name="phone_number"
+            placeholder="Enter 10-digit phone number"
+            pattern="[6-9][0-9]{9}"
+            minlength="10"
+            maxlength="10"
+            inputmode="numeric"
+            title="Enter a valid 10-digit Indian mobile number starting with 6, 7, 8 or 9."
+            required
+        >
+
+        <!-- Alternate Phone -->
+        <label>Alternate Phone Number</label>
+
+        <input
+            type="tel"
+            name="alternate_phone_number"
+            placeholder="Enter alternate phone number"
+            pattern="[6-9][0-9]{9}"
+            minlength="10"
+            maxlength="10"
+            inputmode="numeric"
+            title="Enter a valid 10-digit Indian mobile number."
+        >
+
+        <!-- Email -->
+        <label>Email <span class="required">*</span></label>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="example@gmail.com"
+            maxlength="254"
+            required
+        >
+
+        <!-- GST Number -->
+        <label>GST Number</label>
+
+        <input
+            type="text"
+            name="gst_number"
+            placeholder="Enter 15-character GSTIN"
+            pattern="[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z][1-9A-Za-z]Z[0-9A-Za-z]"
+            minlength="15"
+            maxlength="15"
+            title="Enter a valid 15-character GSTIN."
+            style="text-transform: uppercase;"
+        >
+
+        <!-- Address -->
+        <label>Address <span class="required">*</span></label>
+
+        <textarea
+            name="address"
+            placeholder="Enter supplier address"
+            minlength="5"
+            maxlength="500"
+            rows="4"
+            required
+        ></textarea>
+
+        <button type="submit">Save Supplier</button>
+
+    </form>
+
+    <a href="{% url 'supplier-list' %}" class="back">
+        Back to Suppliers
+    </a>
+
+</div>
+
+{% endblock %}
+<!-- </body>
+</html> -->

@@ -1,0 +1,388 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Supplier Management{% endblock %}
+
+{% block extra_css %}
+
+<style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 640px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .form-header h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .form-header p {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .full-width {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.4rem;
+    }
+
+    .required {
+      color: #ef4444;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.9rem;
+      color: #0f172a;
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper select {
+      appearance: none;
+      cursor: pointer;
+      padding-right: 2rem;
+    }
+
+    .select-wrapper::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 5px;
+      background-color: #64748b;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      pointer-events: none;
+    }
+
+    .input-prefix-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 0.85rem;
+      font-weight: 500;
+      color: #64748b;
+      pointer-events: none;
+    }
+
+    .input-prefix-wrapper input {
+      padding-left: 1.8rem;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .btn {
+      padding: 0.65rem 1.35rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 7px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: #475569;
+      border-color: #cbd5e1;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
+    .btn-view {
+      background-color: #ffffff;
+      color: #2563eb;
+      border-color: #2563eb;
+    }
+
+    .btn-view:hover {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    /* Success Message */
+    .success-message {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      border-left: 4px solid #16a34a;
+      padding: 13px 16px;
+      border-radius: 7px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .success-message svg {
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 580px) {
+      .form-container {
+        padding: 1.25rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full-width {
+        grid-column: span 1;
+      }
+
+      .form-actions {
+        flex-direction: column-reverse;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="form-container">
+
+    <!-- Success Message -->
+    {% if success %}
+    <div class="success-message" role="alert">
+        <svg width="20" height="20" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <path d="m9 11 3 3L22 4"></path>
+        </svg>
+        <span>{{ success }}</span>
+    </div>
+    {% endif %}
+
+    <!-- Form Header -->
+    <div class="form-header">
+        <h2>Add New Product</h2>
+        <p>Enter the details below to add a new item to your inventory.</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <!-- Product Name -->
+            <div class="form-group full-width">
+                <label for="name">Product Name <span class="required">*</span></label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="e.g. Wireless Ergonomic Mouse"
+                    required
+                >
+            </div>
+
+            <!-- SKU -->
+            <div class="form-group">
+                <label for="sku">SKU / Item Code <span class="required">*</span></label>
+                <input
+                    type="text"
+                    id="sku"
+                    name="sku"
+                    placeholder="e.g. SKU-98124"
+                    required
+                >
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+                <label for="category">Category <span class="required">*</span></label>
+                <div class="select-wrapper">
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected>Select category</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Supplier -->
+            <div class="form-group">
+                <label for="supplier">Supplier<span class="required">*</span></label>
+                <div class="select-wrapper">
+                    <select id="supplier" name="supplier">
+                        <option value="" selected>Select supplier</option>
+                        {% for sup in suppliers %}
+                            <option value="{{ sup.id }}">{{ sup.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Price -->
+            <div class="form-group">
+                <label for="price">Price <span class="required">*</span></label>
+                <div class="input-prefix-wrapper">
+                    <span class="input-prefix">₹</span>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        step="0.01"
+                        min="0"
+                        placeholder="0.00"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- Stock Quantity -->
+            <div class="form-group full-width">
+                <label for="stock">Initial Stock Quantity <span class="required">*</span></label>
+                <input
+                    type="number"
+                    id="stock"
+                    name="stock_quantity"
+                    min="0"
+                    step="1"
+                    placeholder="0"
+                    required
+                >
+            </div>
+
+            <!-- Reason -->
+            <div class="form-group full-width">
+                <label for="Reason">Reason</label>
+                <input
+                    type="text"
+                    id="Reason"
+                    name="Reason"
+                    placeholder="e.g. Initial stock addition"
+                >
+            </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-actions">
+
+            <button type="button" class="btn btn-secondary"
+                    onclick="window.history.back()">
+                Cancel
+            </button>
+
+            <a href="{% url 'product-list' %}" class="btn btn-view">
+                View Products
+            </a>
+
+            <button type="submit" class="btn btn-primary">
+                Save Product
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
