@@ -54,24 +54,22 @@
 
     <p class="menu-title">MAIN MENU</p>
 
-    <a href="/dashboard/">🏠 Dashboard</a>
+    <a href="#">🏠 Dashboard</a>
     <a href="{% url 'product-list' %}">📦 Products</a>
     <a href="{% url 'supplier-list' %}">🚚 Suppliers</a>
-    <a href="/categories/">📁 Categories</a>
+    <a href="#">📁 Categories</a>
     <a href="{% url 'cart-page' %}">📁 Cart</a>
-
-
 
 
     <p class="menu-title">INVENTORY</p>
 
-    <a href="/stock/">📊 Stock Management</a>
-    <a href="/purchase-orders/">🛒 Purchase Orders</a>
-    <a href="/sales-orders/">💰 Sales Orders</a>
+    <a href="#">📊 Stock Management</a>
+    <a href="#">🛒 Purchase Orders</a>
+    <a href="{% url 'order_history' %}">💰 Sales Orders</a>
 
     <p class="menu-title">MANAGEMENT</p>
 
-    <a href="/reports/">📈 Reports</a>
-    <a href="/settings/">⚙️ Settings</a>
+    <a href="#">📈 Reports</a>
+    <a href="#">⚙️ Settings</a>
 
 </div>

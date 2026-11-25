@@ -5,9 +5,9 @@ from authentication.user_manager import CustomUserManager
 
 
 Role_choices = (
-    ('admin', 'Admin'),
-    ('manager','Manager'),
-    ('staff','Staff'),
+    ('Admin', 'Admin'),
+    ('Manager','Manager'),
+    ('Staff','Staff'),
     )
 
 class CustomUser(AbstractUser):

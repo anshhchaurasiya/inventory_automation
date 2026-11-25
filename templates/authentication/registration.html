@@ -1,149 +1,964 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Registration Form</title>
+    <title>Create Account — InventoryAuto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        body {
-            background-color: #f4f7f6;
+        html, body {
+            height: 100%;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        .split-wrapper {
+            display: grid;
+            grid-template-columns: 1.06fr 0.94fr;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        /* ================= LEFT BRANDING PANEL ================= */
+        .left-panel {
+            position: relative;
+            background-color: #051638;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: clamp(26px, 3.8vh, 42px) clamp(32px, 4vw, 52px) clamp(20px, 2.8vh, 30px);
+            color: #ffffff;
+        }
+
+        .bg-shape-dark {
+            position: absolute;
+            top: -12%;
+            left: -10%;
+            width: 68%;
+            height: 56%;
+            background: #09214e;
+            border-bottom-right-radius: 130px;
+            transform: rotate(-14deg);
+            z-index: 0;
+        }
+
+        .bg-shape-cyan-left {
+            position: absolute;
+            top: 47%;
+            left: -58px;
+            width: 112px;
+            height: 112px;
+            background: #00d8e6;
+            border-radius: 26px;
+            transform: rotate(35deg);
+            z-index: 0;
+        }
+
+        .bg-shape-cyan-right {
+            position: absolute;
+            bottom: -16%;
+            right: -18%;
+            width: 84%;
+            height: 76%;
+            background: linear-gradient(150deg, #00d8e6 0%, #06b6d4 100%);
+            border-top-left-radius: 95px;
+            transform: rotate(-30deg);
+            z-index: 0;
+        }
+
+        .brand-header {
+            position: relative;
+            z-index: 2;
+            max-width: 490px;
+        }
+
+        .brand-header h1 {
+            font-size: clamp(1.75rem, 2.5vw, 2.3rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.18;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .brand-header p {
+            font-size: clamp(0.88rem, 1.02vw, 1rem);
+            line-height: 1.5;
+            color: #cbd5e1;
+            font-weight: 400;
+        }
+
+        .illustration-box {
+            position: relative;
+            z-index: 2;
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 0;
+            padding: 4px 0;
+        }
+
+        .illustration-box img,
+        .illustration-box svg {
+            max-height: 58vh;
+            max-width: 96%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 24px 38px rgba(2, 10, 28, 0.55));
+        }
+
+        .dev-credit {
+            position: relative;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .dev-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(11, 31, 71, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .dev-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.25;
+        }
+
+        .dev-text span:first-child {
+            font-size: 0.74rem;
+            color: #cbd5e1;
+        }
+
+        .dev-text span:last-child {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* ================= RIGHT FORM PANEL ================= */
+        .right-panel {
+            position: relative;
+            background-color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 16px 24px;
             height: 100vh;
         }
 
-        .form-container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
+        .top-signin {
+            position: absolute;
+            top: clamp(16px, 2.5vh, 26px);
+            right: clamp(24px, 3vw, 40px);
+            font-size: 0.84rem;
+            color: #475569;
         }
 
-        h2 {
-            margin-bottom: 20px;
-            color: #333333;
+        .top-signin a {
+            color: #2563eb;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+
+        .top-signin a:hover {
+            text-decoration: underline;
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: clamp(22px, 3vh, 30px) 30px;
+            box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+            border: 1px solid #f1f5f9;
+        }
+
+        .card-header {
             text-align: center;
+            margin-bottom: clamp(14px, 2vh, 20px);
+        }
+
+        .card-header h2 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .card-header p {
+            font-size: 0.83rem;
+            color: #64748b;
+        }
+
+        .name-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: clamp(9px, 1.3vh, 12px);
         }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #666666;
-            font-size: 14px;
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
+        .input-icon {
+            position: absolute;
+            left: 13px;
+            width: 16px;
+            height: 16px;
+            color: #64748b;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
+            height: 40px;
+            padding: 0 12px 0 38px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 11px;
+            font-size: 0.84rem;
+            color: #0f172a;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
         }
 
-        input:focus {
-            border-color: #04AA6D;
+        .input-wrapper select {
+            appearance: none;
+            cursor: pointer;
+            color: #475569;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .input-wrapper select:valid {
+            color: #0f172a;
+        }
+
+        .input-wrapper input::placeholder {
+            color: #94a3b8;
+        }
+
+        .input-wrapper input:focus,
+        .input-wrapper select:focus {
+            background-color: #ffffff;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.14);
+        }
+
+        .password-input {
+            padding-right: 38px !important;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+        }
+
+        .toggle-password:hover {
+            color: #0f172a;
+        }
+
+        .strength-meter {
+            margin-top: 6px;
+        }
+
+        .strength-track {
+            width: 100%;
+            height: 3.5px;
+            background-color: #e2e8f0;
+            border-radius: 99px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 20%;
+            background-color: #cbd5e1;
+            border-radius: 99px;
+            transition: width 0.25s ease, background-color 0.25s ease;
+        }
+
+        .strength-hint {
+            font-size: 0.72rem;
+            color: #64748b;
+        }
+
+        .terms-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px 0 14px 0;
+            font-size: 0.75rem;
+            color: #475569;
+        }
+
+        .terms-row input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            accent-color: #2563eb;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .terms-row a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .terms-row a:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= FORM VALIDATION ERRORS ================= */
+        .field-error {
+            display: block;
+            margin: 5px 2px 0;
+            color: #dc2626;
+            font-size: 0.72rem;
+            line-height: 1.35;
+        }
+
+        .input-error {
+            border-color: #ef4444 !important;
+            background-color: #fffafa !important;
+        }
+
+        .input-error:focus {
+            border-color: #dc2626 !important;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.10) !important;
+        }
+
+        .general-error {
+            margin-bottom: 13px;
+            padding: 10px 12px;
+            border: 1px solid #fecaca;
+            border-radius: 9px;
+            background: #fef2f2;
+            color: #b91c1c;
+            font-size: 0.78rem;
+            line-height: 1.45;
         }
 
         .btn-submit {
             width: 100%;
-            padding: 12px;
-            background-color: #04AA6D;
-            color: white;
+            height: 42px;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #2563eb 0%, #06b6d4 100%);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.24);
+            transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
         }
 
         .btn-submit:hover {
-            opacity: 0.9;
+            opacity: 0.95;
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.34);
+            transform: translateY(-1px);
         }
 
-        .form-footer {
-            margin-top: 15px;
+        .divider {
+            display: flex;
+            align-items: center;
             text-align: center;
-            font-size: 13px;
-            color: #666666;
+            margin: 12px 0;
+            color: #94a3b8;
+            font-size: 0.74rem;
         }
 
-        .form-footer a {
-            color: dodgerblue;
-            text-decoration: none;
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .divider span {
+            padding: 0 10px;
+        }
+
+        .social-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-social {
+            width: 100%;
+            height: 38px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            font-size: 0.81rem;
+            font-weight: 500;
+            color: #334155;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+        }
+
+        .btn-social:hover {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        @media (max-width: 960px) {
+            html, body {
+                height: auto;
+                overflow-y: auto;
+            }
+
+            .split-wrapper {
+                grid-template-columns: 1fr;
+                height: auto;
+                overflow: visible;
+            }
+
+            .left-panel {
+                padding: 32px 24px;
+            }
+
+            .illustration-box {
+                display: none;
+            }
+
+            .dev-credit {
+                margin-top: 16px;
+            }
+
+            .right-panel {
+                height: auto;
+                padding: 24px 16px 40px;
+            }
+
+            .top-signin {
+                position: static;
+                margin-bottom: 14px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="form-container">
-    <h2>Create Account</h2>
+<div class="split-wrapper">
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+        <div class="bg-shape-dark"></div>
+        <div class="bg-shape-cyan-left"></div>
+        <div class="bg-shape-cyan-right"></div>
 
-    <form action="#" method="POST">
-        {% csrf_token %}
-
-        <div class="form-group">
-            <label for="first_name">First Name</label>
-            <input type="text" id="first_name" name="first_name"
-                   placeholder="Enter first name" required>
+        <div class="brand-header">
+            <h1>Welcome to InventoryAuto</h1>
+            <p>Powerful, automated inventory solutions for growing businesses.</p>
         </div>
 
+        <!-- Precision 2:1 Isometric Smart Warehouse Vector Illustration -->
+        <div class="illustration-box" aria-hidden="true">
+            <svg viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Reusable Isometric Crate with Barcode Label -->
+                    <g id="iso-box">
+                        <!-- Top face -->
+                        <polygon points="0,-12 22,-23 44,-12 22,-1" fill="#FDE68A"/>
+                        <!-- Packing tape -->
+                        <polygon points="9,-16.5 31,-5.5 34,-7 12,-18" fill="#F59E0B" opacity="0.7"/>
+                        <!-- Left face -->
+                        <polygon points="0,-12 22,-1 22,22 0,11" fill="#D97706"/>
+                        <!-- Right face -->
+                        <polygon points="44,-12 22,-1 22,22 44,11" fill="#F59E0B"/>
+                        <!-- White shipping barcode sticker -->
+                        <polygon points="27,4 37,-1 37,6 27,11" fill="#FFFFFF" opacity="0.9"/>
+                        <line x1="29" y1="6" x2="35" y2="3" stroke="#0F172A" stroke-width="1"/>
+                    </g>
+
+                    <!-- Reusable Wooden Pallet -->
+                    <g id="iso-pallet">
+                        <polygon points="0,0 52,-26 104,0 52,26" fill="#92400E"/>
+                        <polygon points="0,0 52,26 52,33 0,7" fill="#78350F"/>
+                        <polygon points="104,0 52,26 52,33 104,7" fill="#B45309"/>
+                        <!-- Pallet slats -->
+                        <line x1="12" y1="-6" x2="64" y2="20" stroke="#451A03" stroke-width="1.5"/>
+                        <line x1="26" y1="-13" x2="78" y2="13" stroke="#451A03" stroke-width="1.5"/>
+                        <line x1="40" y1="-20" x2="92" y2="6" stroke="#451A03" stroke-width="1.5"/>
+                    </g>
+
+                    <!-- Reusable AGV Autonomous Bot -->
+                    <g id="agv-bot">
+                        <!-- Sensor scan cone -->
+                        <polygon points="26,22 68,43 44,55" fill="#22D3EE" opacity="0.22"/>
+                        <!-- Chassis shadow -->
+                        <ellipse cx="26" cy="24" rx="28" ry="15" fill="#030B1E" opacity="0.5"/>
+                        <!-- Bot base -->
+                        <ellipse cx="26" cy="19" rx="25" ry="13" fill="#0284C7"/>
+                        <ellipse cx="26" cy="15" rx="23" ry="11.5" fill="#38BDF8"/>
+                        <!-- Glowing cyan bumper LED -->
+                        <path d="M8 20 Q26 29 44 20" stroke="#67E8F9" stroke-width="2.5" fill="none"/>
+                        <!-- Cargo box carried on top -->
+                        <g transform="translate(8, 2) scale(0.82)">
+                            <use href="#iso-box"/>
+                        </g>
+                        <!-- Wi-Fi signal waves above bot -->
+                        <path d="M21 -15 Q26 -19 31 -15" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                        <path d="M18 -19 Q26 -25 34 -19" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.7"/>
+                    </g>
+
+                    <!-- Reusable Warehouse Operator -->
+                    <g id="worker">
+                        <ellipse cx="0" cy="28" rx="7" ry="3.5" fill="#030B1E" opacity="0.45"/>
+                        <!-- Legs -->
+                        <rect x="-3.5" y="14" width="3" height="13" rx="1.5" fill="#1E3A8A"/>
+                        <rect x="0.5" y="14" width="3" height="13" rx="1.5" fill="#1E3A8A"/>
+                        <!-- High-vis safety vest -->
+                        <rect x="-4.5" y="3" width="9" height="12" rx="2.5" fill="#38BDF8"/>
+                        <line x1="-4.5" y1="8" x2="4.5" y2="8" stroke="#FACC15" stroke-width="1.8"/>
+                        <!-- Head & Safety Helmet -->
+                        <circle cx="0" cy="-2" r="4" fill="#FDBA74"/>
+                        <path d="M-4.5 -3 C-4.5 -7, 4.5 -7, 4.5 -3 Z" fill="#FACC15"/>
+                    </g>
+
+                    <linearGradient id="floorGrad" x1="360" y1="80" x2="360" y2="440" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#0F347D"/>
+                        <stop offset="100%" stop-color="#081E4D"/>
+                    </linearGradient>
+                </defs>
+
+                <!-- ================= 1. ISOMETRIC WAREHOUSE PLATFORM ================= -->
+                <polygon points="360,80 660,230 360,380 60,230" fill="url(#floorGrad)" stroke="#38BDF8" stroke-width="2.5"/>
+                <!-- 3D Slab Edges -->
+                <polygon points="60,230 360,380 360,402 60,252" fill="#061638"/>
+                <polygon points="660,230 360,380 360,402 660,252" fill="#092154"/>
+
+                <!-- Subtle Floor Grid Lines -->
+                <line x1="210" y1="155" x2="510" y2="305" stroke="#1D4ED8" stroke-width="1" opacity="0.45"/>
+                <line x1="135" y1="192.5" x2="435" y2="342.5" stroke="#1D4ED8" stroke-width="1" opacity="0.45"/>
+                <line x1="510" y1="155" x2="210" y2="305" stroke="#1D4ED8" stroke-width="1" opacity="0.45"/>
+                <line x1="585" y1="192.5" x2="285" y2="342.5" stroke="#1D4ED8" stroke-width="1" opacity="0.45"/>
+
+                <!-- Automated AGV Routing Tracks -->
+                <path d="M210 295 L340 230 L470 295" stroke="#00E5FF" stroke-width="2.2" stroke-dasharray="6 6"/>
+                <path d="M275 330 L415 260" stroke="#00E5FF" stroke-width="2.2" stroke-dasharray="6 6"/>
+                <circle cx="340" cy="230" r="4.5" fill="#00E5FF"/>
+                <circle cx="415" cy="260" r="4.5" fill="#00E5FF"/>
+
+                <!-- ================= 2. BACK WALLS, DASHBOARD & LOADING BAYS ================= -->
+                <!-- Back-Left Wall -->
+                <polygon points="120,200 360,80 360,185 120,305" fill="#0B255E" stroke="#1E40AF" stroke-width="1.8"/>
+                <!-- Live Inventory Analytics Screen on Wall -->
+                <polygon points="210,165 300,120 300,170 210,215" fill="#04102B" stroke="#38BDF8" stroke-width="2"/>
+                <polyline points="220,198 238,180 255,184 272,155 290,150" stroke="#22D3EE" stroke-width="2.5" fill="none"/>
+                <circle cx="272" cy="155" r="3" fill="#38BDF8"/>
+                <rect x="220" y="164" width="26" height="5" rx="2" fill="#38BDF8" opacity="0.7"/>
+                <rect x="220" y="173" width="18" height="4" rx="2" fill="#60A5FA" opacity="0.5"/>
+
+                <!-- Back-Right Wall -->
+                <polygon points="360,80 600,200 600,305 360,185" fill="#103582" stroke="#1E40AF" stroke-width="1.8"/>
+
+                <!-- Loading Dock Door 1 (Closed Shutter) -->
+                <polygon points="405,134 475,169 475,242 405,207" fill="#1E3A8A" stroke="#60A5FA" stroke-width="2"/>
+                <line x1="405" y1="152" x2="475" y2="187" stroke="#3B82F6" stroke-width="1.5"/>
+                <line x1="405" y1="170" x2="475" y2="205" stroke="#3B82F6" stroke-width="1.5"/>
+                <line x1="405" y1="188" x2="475" y2="223" stroke="#3B82F6" stroke-width="1.5"/>
+                <!-- Dock Status Indicator Light -->
+                <polygon points="435,126 445,131 445,141 435,136" fill="#10B981"/>
+
+                <!-- Loading Dock Door 2 (Open Bay for Truck) -->
+                <polygon points="502,182 572,217 572,290 502,255" fill="#04112E" stroke="#38BDF8" stroke-width="2"/>
+                <!-- Yellow/Black Dock Safety Bumper -->
+                <polygon points="502,255 572,290 572,297 502,262" fill="#FACC15"/>
+
+                <!-- ================= 3. MULTI-TIER INVENTORY STORAGE RACKS ================= -->
+                <!-- Rack Unit A (Back Center) -->
+                <g transform="translate(245, 138)">
+                    <!-- Shelf decks (3 levels) -->
+                    <polygon points="0,38 76,0 104,14 28,52" fill="#1E40AF"/>
+                    <polygon points="0,74 76,36 104,50 28,88" fill="#1D4ED8"/>
+                    <polygon points="0,110 76,72 104,86 28,124" fill="#1E3A8A"/>
+                    <!-- Top Tier Boxes -->
+                    <g transform="translate(14, 24) scale(0.75)"><use href="#iso-box"/></g>
+                    <g transform="translate(48, 7) scale(0.75)"><use href="#iso-box"/></g>
+                    <!-- Middle Tier Boxes -->
+                    <g transform="translate(14, 60) scale(0.75)"><use href="#iso-box"/></g>
+                    <g transform="translate(48, 43) scale(0.75)"><use href="#iso-box"/></g>
+                    <!-- Bottom Tier Boxes -->
+                    <g transform="translate(14, 96) scale(0.75)"><use href="#iso-box"/></g>
+                    <g transform="translate(48, 79) scale(0.75)"><use href="#iso-box"/></g>
+                    <!-- Steel Rack Uprights -->
+                    <line x1="2" y1="22" x2="2" y2="116" stroke="#38BDF8" stroke-width="3"/>
+                    <line x1="28" y1="35" x2="28" y2="129" stroke="#38BDF8" stroke-width="3"/>
+                    <line x1="76" y1="-8" x2="76" y2="80" stroke="#38BDF8" stroke-width="2.5"/>
+                    <line x1="102" y1="6" x2="102" y2="94" stroke="#38BDF8" stroke-width="3"/>
+                </g>
+
+                <!-- Rack Unit B (Front Left) -->
+                <g transform="translate(132, 195)">
+                    <polygon points="0,38 76,0 104,14 28,52" fill="#1E40AF"/>
+                    <polygon points="0,74 76,36 104,50 28,88" fill="#1D4ED8"/>
+                    <polygon points="0,110 76,72 104,86 28,124" fill="#1E3A8A"/>
+                    <!-- Boxes -->
+                    <g transform="translate(14, 24) scale(0.75)"><use href="#iso-box"/></g>
+                    <g transform="translate(48, 7) scale(0.75)"><use href="#iso-box"/></g>
+                    <g transform="translate(14, 60) scale(0.75)"><use href="#iso-box"/></g>
+                    <g transform="translate(48, 43) scale(0.75)"><use href="#iso-box"/></g>
+                    <g transform="translate(14, 96) scale(0.75)"><use href="#iso-box"/></g>
+                    <!-- Steel Rack Uprights -->
+                    <line x1="2" y1="22" x2="2" y2="116" stroke="#38BDF8" stroke-width="3"/>
+                    <line x1="28" y1="35" x2="28" y2="129" stroke="#38BDF8" stroke-width="3"/>
+                    <line x1="102" y1="6" x2="102" y2="94" stroke="#38BDF8" stroke-width="3"/>
+                </g>
+
+                <!-- ================= 4. FORKLIFT, OPERATORS & AGV ROBOTS ================= -->
+                <!-- Isometric Electric Forklift -->
+                <g transform="translate(248, 212)">
+                    <!-- Shadow -->
+                    <ellipse cx="26" cy="36" rx="24" ry="12" fill="#030B1E" opacity="0.45"/>
+                    <!-- Body -->
+                    <polygon points="6,18 28,7 46,16 24,27" fill="#38BDF8"/>
+                    <polygon points="6,18 24,27 24,40 6,31" fill="#0284C7"/>
+                    <polygon points="46,16 24,27 24,40 46,29" fill="#0369A1"/>
+                    <!-- Roll Cage -->
+                    <line x1="12" y1="16" x2="12" y2="2" stroke="#E2E8F0" stroke-width="2"/>
+                    <line x1="28" y1="22" x2="28" y2="8" stroke="#E2E8F0" stroke-width="2"/>
+                    <polygon points="10,2 28,-6 36,-2 18,6" fill="#0F172A"/>
+                    <!-- Vertical Mast & Forks -->
+                    <line x1="45" y1="0" x2="45" y2="34" stroke="#94A3B8" stroke-width="3"/>
+                    <line x1="45" y1="28" x2="60" y2="35" stroke="#CBD5E1" stroke-width="2.5"/>
+                    <!-- Pallet on Forks -->
+                    <g transform="translate(46, 16) scale(0.55)"><use href="#iso-box"/></g>
+                    <!-- Wheels -->
+                    <circle cx="15" cy="36" r="5" fill="#0F172A" stroke="#64748B" stroke-width="1.5"/>
+                    <circle cx="36" cy="35" r="5" fill="#0F172A" stroke="#64748B" stroke-width="1.5"/>
+                </g>
+
+                <!-- Warehouse Staff with Handheld Scanner -->
+                <g transform="translate(322, 212)"><use href="#worker"/></g>
+                <g transform="translate(425, 224)"><use href="#worker"/></g>
+
+                <!-- Autonomous AGV Bots -->
+                <g transform="translate(206, 294)"><use href="#agv-bot"/></g>
+                <g transform="translate(358, 302)"><use href="#agv-bot"/></g>
+
+                <!-- ================= 5. PALLETIZED DISPATCH & PRECISION BOX TRUCK ================= -->
+                <!-- Foreground Pallet Stack -->
+                <g transform="translate(278, 326)">
+                    <use href="#iso-pallet"/>
+                    <g transform="translate(14, -8) scale(0.85)"><use href="#iso-box"/></g>
+                    <g transform="translate(50, -8) scale(0.85)"><use href="#iso-box"/></g>
+                    <g transform="translate(32, -28) scale(0.85)"><use href="#iso-box"/></g>
+                </g>
+
+                <!-- Staging Boxes at Loading Dock -->
+                <g transform="translate(442, 248) scale(0.85)"><use href="#iso-box"/></g>
+                <g transform="translate(476, 265) scale(0.85)"><use href="#iso-box"/></g>
+
+                <!-- Precision 2:1 Isometric Delivery Truck Backed into Bay 2 -->
+                <g transform="translate(465, 232)">
+                    <!-- Ground Shadow -->
+                    <polygon points="0,68 128,4 166,23 38,87" fill="#020817" opacity="0.55"/>
+
+                    <!-- Cargo Container Box (2:1 Isometric Angles) -->
+                    <!-- Top Roof -->
+                    <polygon points="44,24 124,-16 164,4 84,44" fill="#FFFFFF"/>
+                    <!-- Side Wall (Left-facing) -->
+                    <polygon points="44,24 84,44 84,84 44,64" fill="#CBD5E1"/>
+                    <!-- Rear/Right Wall -->
+                    <polygon points="164,4 84,44 84,84 164,44" fill="#E2E8F0"/>
+                    <!-- Cyan Brand Stripe on Truck Side -->
+                    <polygon points="84,56 164,16 164,25 84,65" fill="#06B6D4"/>
+                    <polygon points="84,67 164,27 164,31 84,71" fill="#2563EB"/>
+
+                    <!-- Truck Cab (Aligned on exact same 2:1 axis) -->
+                    <!-- Cab Roof -->
+                    <polygon points="8,44 44,26 78,43 42,61" fill="#38BDF8"/>
+                    <!-- Cab Front Grille & Bumper -->
+                    <polygon points="8,44 42,61 42,88 8,71" fill="#0284C7"/>
+                    <!-- Cab Side Door -->
+                    <polygon points="78,43 42,61 42,88 78,70" fill="#0369A1"/>
+                    <!-- Front Windshield -->
+                    <polygon points="12,46 38,59 38,70 12,57" fill="#BAE6FD"/>
+                    <!-- Side Window -->
+                    <polygon points="47,61 72,48 72,60 47,73" fill="#7DD3FC"/>
+                    <!-- Headlights & Bumper -->
+                    <polygon points="8,66 42,83 42,89 8,72" fill="#0F172A"/>
+                    <circle cx="13" cy="66" r="2.2" fill="#FEF08A"/>
+                    <circle cx="37" cy="78" r="2.2" fill="#FEF08A"/>
+
+                    <!-- Isometric Wheels (Ellipses aligned to road plane) -->
+                    <ellipse cx="26" cy="82" rx="8.5" ry="11" transform="rotate(-26 26 82)" fill="#0F172A" stroke="#475569" stroke-width="2"/>
+                    <circle cx="26" cy="82" r="3.5" fill="#94A3B8"/>
+
+                    <ellipse cx="64" cy="79" rx="8.5" ry="11" transform="rotate(-26 64 79)" fill="#0F172A" stroke="#475569" stroke-width="2"/>
+                    <circle cx="64" cy="79" r="3.5" fill="#94A3B8"/>
+
+                    <ellipse cx="134" cy="61" rx="8.5" ry="11" transform="rotate(-26 134 61)" fill="#0F172A" stroke="#475569" stroke-width="2"/>
+                    <circle cx="134" cy="61" r="3.5" fill="#94A3B8"/>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Developer Credit -->
+        <div class="dev-credit">
+            <div class="dev-badge" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+            </div>
+            <div class="dev-text">
+                <span>Developed by</span>
+                <span>Ansh</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+        <div class="top-signin">
+            Already have an account? <a href="{% url 'login' %}">Sign In</a>
+        </div>
+
+        <div class="form-card">
+            <div class="card-header">
+                <h2>Create Your Account</h2>
+                <p>Set up your workspace in minutes.</p>
+            </div>
+
+            <form action='{% url "register" %}' method="POST">
+                {% csrf_token %}
+
+                {% if errors.non_field_errors %}
+                    <div class="general-error" role="alert">
+                        {% for error in errors.non_field_errors %}
+                            {{ error }}{% if not forloop.last %}<br>{% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- First Name & Last Name -->
+                <div class="name-row">
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </span>
+                            <input type="text" id="first_name" name="first_name" placeholder="First Name" value="{{ form_data.first_name|default:'' }}" class="{% if errors.first_name %}input-error{% endif %}" required>
+                        </div>
+                        {% if errors.first_name %}<span class="field-error">{{ errors.first_name.0 }}</span>{% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </span>
+                            <input type="text" id="last_name" name="last_name" placeholder="Last Name" value="{{ form_data.last_name|default:'' }}" class="{% if errors.last_name %}input-error{% endif %}" required>
+                        </div>
+                        {% if errors.last_name %}<span class="field-error">{{ errors.last_name.0 }}</span>{% endif %}
+                    </div>
+                </div>
+
+                <!-- Work Email -->
                 <div class="form-group">
-            <label for="last_name">Last Name</label>
-            <input type="text" id="last_name" name="last_name"
-                   placeholder="Enter last name" required>
+                    <div class="input-wrapper">
+                        <span class="input-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                            </svg>
+                        </span>
+                        <input type="email" id="email" name="email" placeholder="Work Email" value="{{ form_data.email|default:'' }}" class="{% if errors.email %}input-error{% endif %}" required>
+                    </div>
+                    {% if errors.email %}<span class="field-error">{{ errors.email.0 }}</span>{% endif %}
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <span class="input-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </span>
+                        <input type="text" id="phone_number" name="phone_number" placeholder="Phone Number" value="{{ form_data.phone_number|default:'' }}" class="{% if errors.phone_number %}input-error{% endif %}" required>
+                    </div>
+                    {% if errors.phone_number %}<span class="field-error">{{ errors.phone_number.0 }}</span>{% endif %}
+                </div>
+
+                <!-- Role Dropdown -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <span class="input-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                        </span>
+                        <select id="role" name="role" class="{% if errors.role %}input-error{% endif %}" required>
+                            <option value="" disabled {% if not form_data.role %}selected{% endif %}>Select Role</option>
+                            <option value="Admin" {% if form_data.role == "Admin" %}selected{% endif %}>Admin</option>
+                            <option value="Manager" {% if form_data.role == "Manager" %}selected{% endif %}>Manager</option>
+                            <option value="Staff" {% if form_data.role == "Staff" %}selected{% endif %}>Staff</option>
+                        </select>
+                    </div>
+                    {% if errors.role %}<span class="field-error">{{ errors.role.0 }}</span>{% endif %}
+                </div>
+
+                <!-- Password + Live Strength Indicator -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <span class="input-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </span>
+                        <input type="password" id="password" name="password"  autocomplete="new-password" class="password-input {% if errors.password %}input-error{% endif %}" placeholder="Password" minlength="8" required>
+                        <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+                            <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="strength-meter">
+                        <div class="strength-track">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <span class="strength-hint" id="strengthHint">At least 8 characters</span>
+                    </div>
+                    {% if errors.password %}<span class="field-error">{{ errors.password.0 }}</span>{% endif %}
+                </div>
+
+                <!-- Terms Agreement -->
+                <label class="terms-row">
+                    <input type="checkbox" required>
+                    <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                </label>
+
+                <button type="submit" class="btn-submit">Create Account</button>
+            </form>
+
+            <div class="divider"><span>Or</span></div>
+
+            <div class="social-stack">
+                <button type="button" class="btn-social">
+                    <svg width="16" height="16" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24Z"/>
+                        <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14Z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96Z"/>
+                    </svg>
+                    Or sign up with Google
+                </button>
+
+                <button type="button" class="btn-social">
+                    <svg width="15" height="15" viewBox="0 0 21 21">
+                        <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+                        <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+                        <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+                        <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+                    </svg>
+                    Or sign up with Microsoft
+                </button>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email"
-                   placeholder="Enter email" required>
-        </div>
-
-        <div class="form-group">
-            <label for="phone_number">Phone Number</label>
-            <input type="text" id="phone_number" name="phone_number"
-                   placeholder="Enter phone number" required>
-        </div>
-
-        <div class="form-group">
-            <label for="role">Role</label>
-            <select id="role" name="role" required>
-                <option value="">Select Role</option>
-                <option value="Admin">Admin</option>
-                <option value="Manager">Manager</option>
-                <option value="Staff">Staff</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password"
-                   placeholder="Create password" minlength="8" required>
-        </div>
-
-        <button type="submit" class="btn-submit">Register</button>
-    </form>
-
-    <div class="form-footer">
-        Already have an account? <a href="#">Sign In</a>
     </div>
 </div>
+
+<script>
+    const passwordInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('togglePassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    toggleBtn.addEventListener('click', () => {
+        const isHidden = passwordInput.type === 'password';
+        passwordInput.type = isHidden ? 'text' : 'password';
+        eyeIcon.innerHTML = isHidden
+            ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>'
+            : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+    });
+
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthHint = document.getElementById('strengthHint');
+
+    passwordInput.addEventListener('input', () => {
+        const val = passwordInput.value;
+        if (val.length === 0) {
+            strengthFill.style.width = '20%';
+            strengthFill.style.backgroundColor = '#cbd5e1';
+            strengthHint.textContent = 'At least 8 characters';
+            strengthHint.style.color = '#64748b';
+        } else if (val.length < 8) {
+            strengthFill.style.width = '45%';
+            strengthFill.style.backgroundColor = '#f59e0b';
+            strengthHint.textContent = `At least 8 characters (${8 - val.length} more needed)`;
+            strengthHint.style.color = '#d97706';
+        } else {
+            const strong = /[A-Z]/.test(val) && /[0-9]/.test(val);
+            strengthFill.style.width = strong ? '100%' : '75%';
+            strengthFill.style.backgroundColor = '#10b981';
+            strengthHint.textContent = strong ? 'Strong password' : 'Good — meets 8-character requirement';
+            strengthHint.style.color = '#059669';
+        }
+    });
+</script>
+
+</body>
+</html>

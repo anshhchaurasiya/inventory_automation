@@ -17,7 +17,6 @@ class SupplierView(View):
         suppliers = Supplier.objects.all()
         serializer = SupplierSerializer(suppliers, many=True)
         
-
         return render(
             request,
             'inventory/Supplier/supplier_list.html',

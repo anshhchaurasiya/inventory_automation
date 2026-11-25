@@ -68,7 +68,7 @@ class ProductView(View):
 
 
 
-
+# adding existing produuct
 def add_existing_product(request):
 
     if request.method == 'POST':

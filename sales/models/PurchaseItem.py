@@ -24,6 +24,10 @@ class PurchaseItem(models.Model):
         decimal_places=2
     )
 
+    @property
+    def subtotal(self):
+        return self.quantity * self.unit_price    
+
     class Meta:
         db_table = 'PurchaseItems'
         verbose_name = 'Purchase Item'

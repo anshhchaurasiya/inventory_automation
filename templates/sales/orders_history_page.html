@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+
+{% block title %}Order History{% endblock %}
+
+{% block extra_css %}
+
+<style>
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+    .page-header h1 {
+        margin: 0 0 8px;
+        font-size: 26px;
+        color: #263244;
+    }
+
+    .page-header p {
+        color: #7b8494;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .table-container {
+        width: 100%;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        overflow-x: auto;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 650px;
+    }
+
+    th, td {
+        padding: 16px 14px;
+        text-align: left;
+        border-bottom: 1px solid #edf0f4;
+    }
+
+    th {
+        color: #7b8494;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    td {
+        font-size: 14px;
+        color: #263244;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    .order-id {
+        font-weight: bold;
+        color: #263f73;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        text-transform: capitalize;
+        white-space: nowrap;
+        background: #eef2f7;
+    }
+
+    .status.completed {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .status.pending {
+        background: #fef3c7;
+        color: #a16207;
+    }
+
+    .status.cancelled {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .view-btn {
+        display: inline-block;
+        padding: 8px 13px;
+        background: #263f73;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 13px;
+        white-space: nowrap;
+        transition: background 0.2s;
+    }
+
+    .view-btn:hover {
+        background: #1c315b;
+    }
+
+    .empty-message {
+        text-align: center;
+        padding: 35px;
+        color: #7b8494;
+    }
+
+    @media (max-width: 768px) {
+        .page-header h1 {
+            font-size: 22px;
+        }
+
+        .table-container {
+            padding: 12px;
+        }
+
+        th, td {
+            padding: 13px 10px;
+        }
+    }
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Sales Order History</h1>
+    <p>View and manage your previous sales orders.</p>
+</div>
+
+<div class="table-container">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Purchase Date</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for purchase in order_history %}
+
+            <tr>
+                <td class="order-id">
+                    #{{ purchase.id }}
+                </td>
+
+                <td>
+                    {{ purchase.purchase_date|date:"d M Y, h:i A" }}
+                </td>
+
+                <td>
+                    ₹{{ purchase.total_amount }}
+                </td>
+
+                <td>
+                    <span class="status {{ purchase.status }}">
+                        {{ purchase.get_status_display }}
+                    </span>
+                </td>
+
+                <td>
+                    <a href="{% url 'order_details' purchase.id %}"
+                       class="view-btn">
+                        View Details
+                    </a>
+                </td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="5" class="empty-message">
+                    No sales orders found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

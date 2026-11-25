@@ -13,23 +13,35 @@ from rest_framework import status
 
 from inventory.models import Product
 
-from sales.models.Cart import Cart
-from sales.models.CartItem import CartItem
-from sales.models.Purchase import Purchase
-from sales.models.PurchaseItem import PurchaseItem
+from sales.models import Cart
+from sales.models import CartItem
+from sales.models import Purchase
+from sales.models import PurchaseItem
 
-from .serializer.product_search_serializer import ProductSearchSerializer
-from .serializer.add_to_cart_serializer import AddToCartSerializer
-from .serializer.get_cart_serializer import CartItemSerializer
-from .serializer.update_cart_serializer import UpdateCartSerializer
-from .serializer.checkout_serializer import CheckoutSerializer
-from .serializer.purchase_serializer import PurchaseSerializer
+from sales.serializer import PurchaseSerializer,ProductSearchSerializer,AddToCartSerializer,CartItemSerializer,PurchaseItemSerializer, UpdateCartSerializer,CustomerDetailsSerializer,CheckoutSerializer
 
 import json
 from django.http import JsonResponse
 
+@login_required()
+def order_history(request):
+    order_history=Purchase.objects.all().order_by("-purchase_date")
+    return render(request,"sales/orders_history_page.html",{"order_history":order_history})
+
+@login_required()
+def order_details(request,purchase_id):
+    order_details = get_object_or_404(
+        Purchase.objects.prefetch_related('items__product'),
+        id=purchase_id,
+        user=request.user
+    )
+
+    return render(request, 'sales/order_details.html', {
+        "order_details":order_details
+    })
 
 
+@login_required()
 def address(request):
     print(float(request.GET.get('total')),"next",request.GET.get('total_quantity'))
     context={'total':request.GET.get('total'),
@@ -43,7 +55,7 @@ def address(request):
 
     return render(request, "sales/customer_form.html",context)
 
-
+@login_required()
 def invoice_page(request):
     return render(request, "sales/invoice.html")
 
@@ -107,7 +119,7 @@ def search_product(request):
 # =====================================================
 # ADD TO CART
 # =====================================================
-
+login_required
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_to_cart(request):
@@ -277,7 +289,7 @@ def get_cart(request):
 # =====================================================
 # UPDATE CART ITEM
 # =====================================================
-
+login_required
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_cart_item(request, item_id):
@@ -422,11 +434,12 @@ def remove_cart_item(request, item_id):
 # =====================================================
 # CHECKOUT
 # =====================================================
-
+login_required
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def checkout(request):
     # print(request.data)
+    print(dict(request.session))
     serializer = CheckoutSerializer(data=request.data)
 
     if not serializer.is_valid():
@@ -574,11 +587,23 @@ def checkout(request):
         CartItem.objects.filter(
             cart=cart
         ).delete()
-
+    data=request.data
+    print(data)
+    customer_details_serialzer=CustomerDetailsSerializer(data=data)
+    if customer_details_serialzer.is_valid():
+        customer_details_serialzer.save(purchase=purchase)
+    else:
+        return Response(
+                    {
+                        "status": "error",
+                        "errors": serializer.errors
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
     purchase_serializer = PurchaseSerializer(purchase)
     data=json.loads(request.body)
     data=dict(purchase_serializer.data)|data
-    print(data)
+    # print(data)
 
 
     return Response(
@@ -623,7 +648,7 @@ def purchase_history(request):
 # =====================================================
 # PURCHASE DETAILS
 # =====================================================
-
+# not using this code  (below)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def purchase_detail(request, purchase_id):

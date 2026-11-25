@@ -67,6 +67,6 @@ urlpatterns = [
 
     path('address/',views.address,name='address'),
     path('invoice/',views.invoice_page,name="invoice"),
-    
-
+    path('orders/', views.order_history, name='order_history'),
+    path('orders/<int:purchase_id>/', views.order_details, name='order_details'),
 ]
