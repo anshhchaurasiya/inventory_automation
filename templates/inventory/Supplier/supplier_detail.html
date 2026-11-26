@@ -1,352 +1,355 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Supplier Details</title> -->
 
 {% extends 'base.html' %}
 
 {% block title %}Supplier Details{% endblock %}
 
 {% block extra_css %}
+<style>
+    .supplier-detail-page {
+        min-height: calc(100vh - 60px);
+        padding: 30px 24px;
+        background: #f6f6f7;
+        color: #202223;
+        font-family: Arial, sans-serif;
+    }
 
-    <style>
-        * {
+    .detail-card {
+        max-width: 760px;
+        margin: auto;
+        background: #fff;
+        border: 1px solid #e1e3e5;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    }
+
+    .detail-header {
+        padding: 24px 28px;
+        border-bottom: 1px solid #e1e3e5;
+    }
+
+    .detail-header h2 {
+        margin: 0;
+        font-size: 23px;
+        font-weight: 600;
+        color: #202223;
+    }
+
+    .detail-header p {
+        margin: 8px 0 0;
+        font-size: 13px;
+        color: #6d7175;
+    }
+
+    .detail-body {
+        padding: 28px;
+    }
+
+    .section-title {
+        margin-bottom: 22px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #202223;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 16px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        margin-bottom: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #616161;
+    }
+
+    .required {
+        color: #b42318;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 14px;
+        border: 1px solid #c9cccf;
+        border-radius: 8px;
+        background: #fff;
+        color: #202223;
+        font-size: 14px;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: #303030;
+        box-shadow: 0 0 0 3px rgba(48,48,48,0.10);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .error {
+        margin-bottom: 22px;
+        padding: 14px 18px;
+        background: #fce4e4;
+        color: #b42318;
+        border: 1px solid #f5c2c2;
+        border-radius: 8px;
+        font-size: 13px;
+    }
+
+    .error p {
+        margin: 5px 0;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 18px;
+        border: 1px solid #c9cccf;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: #303030;
+        color: #fff;
+        border-color: #303030;
+    }
+
+    .btn-primary:hover {
+        background: #1a1a1a;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #fff;
+        color: #303030;
+    }
+
+    .btn-secondary:hover {
+        background: #f3f4f6;
+        color: #202223;
+    }
+
+    .form-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 20px 28px;
+        background: #fafafa;
+        border-top: 1px solid #e1e3e5;
+    }
+
+    .delete-section {
+        margin-top: 28px;
+        padding: 20px;
+        background: #fffafa;
+        border: 1px solid #f1d5d5;
+        border-radius: 10px;
+    }
+
+    .delete-section h3 {
+        margin: 0 0 8px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #b42318;
+    }
+
+    .delete-section p {
+        margin: 0 0 16px;
+        color: #6d7175;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .btn-danger {
+        background: #fff;
+        color: #b42318;
+        border-color: #e5a5a5;
+    }
+
+    .btn-danger:hover {
+        background: #fce4e4;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 22px;
+        color: #303030;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+        .supplier-detail-page {
+            padding: 16px 10px;
+        }
+
+        .detail-header,
+        .detail-body {
+            padding: 20px 16px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .full-width {
+            grid-column: auto;
+        }
+
+        .form-footer {
+            padding: 18px 16px;
+        }
+
+        .form-footer .btn,
+        .delete-section .btn {
+            width: 100%;
             box-sizing: border-box;
         }
-
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f1f5f9;
-            margin: 0;
-            padding: 40px 20px;
-            color: #1e293b;
-        }
-
-        .container {
-            max-width: 650px;
-            margin: auto;
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-        }
-
-        .header {
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 20px;
-            margin-bottom: 25px;
-        }
-
-        .header h2 {
-            margin: 0;
-            font-size: 25px;
-            color: #0f172a;
-        }
-
-        .header p {
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 0;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 22px;
-            color: #334155;
-        }
-
-        .form-group {
-            margin-bottom: 19px;
-        }
-
-        label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #334155;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 7px;
-            font-size: 14px;
-            background: #fff;
-            transition: 0.2s;
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .required {
-            color: #dc2626;
-        }
-
-        .error {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #b91c1c;
-            padding: 12px 16px;
-            border-radius: 7px;
-            margin-bottom: 22px;
-            font-size: 13px;
-        }
-
-        .update-btn {
-            width: 100%;
-            background: #2563eb;
-            color: white;
-            padding: 13px;
-            border: none;
-            border-radius: 7px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .update-btn:hover {
-            background: #1d4ed8;
-        }
-
-        .divider {
-            border: none;
-            border-top: 1px solid #e2e8f0;
-            margin: 28px 0;
-        }
-
-        .delete-section {
-            background: #fffafa;
-            border: 1px solid #fee2e2;
-            padding: 18px;
-            border-radius: 8px;
-        }
-
-        .delete-section h3 {
-            margin: 0 0 7px;
-            font-size: 15px;
-            color: #991b1b;
-        }
-
-        .delete-section p {
-            color: #64748b;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
-
-        .delete-btn {
-            width: 100%;
-            background: #dc2626;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 7px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .delete-btn:hover {
-            background: #b91c1c;
-        }
-
-        .back {
-            display: inline-block;
-            margin-top: 25px;
-            color: #2563eb;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .back:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 20px 12px;
-            }
-
-            .container {
-                padding: 22px;
-            }
-        }
-
-    </style>
+    }
+</style>
 {% endblock %}
 
-<!-- </head>
-
-<body> -->
 {% block content %}
 
-<div class="container">
+<div class="supplier-detail-page">
 
-    <div class="header">
-        <h2>Supplier Details</h2>
-        <p>View and manage supplier information</p>
-    </div>
+    <div class="detail-card">
 
-    {% if errors %}
-        <div class="error">
-            <strong>Please correct the following errors:</strong>
-
-            {% for field, messages in errors.items %}
-                <p>{{ field }}: {{ messages|join:", " }}</p>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    <div class="section-title">
-        Supplier Information
-    </div>
-
-    <!-- Update Supplier Form -->
-
-    <form method="POST" action="{% url 'supplier-detail' supplier.id %}">
-
-        {% csrf_token %}
-
-        <div class="form-group">
-            <label>Name <span class="required">*</span></label>
-
-            <input
-                type="text"
-                name="name"
-                value="{{ form_data.name|default:supplier.name }}"
-                minlength="2"
-                maxlength="100"
-                required
-            >
+        <div class="detail-header">
+            <h2>Supplier Details</h2>
+            <p>View and manage supplier information.</p>
         </div>
 
-        <div class="form-group">
-            <label>Phone Number <span class="required">*</span></label>
+        <div class="detail-body">
 
-            <input
-                type="tel"
-                name="phone_number"
-                value="{{ form_data.phone_number|default:supplier.phone_number }}"
-                pattern="[6-9][0-9]{9}"
-                maxlength="10"
-                minlength="10"
-                required
-            >
+            {% if errors %}
+                <div class="error">
+                    <strong>Please correct the following errors:</strong>
+                    {% for field, messages in errors.items %}
+                        <p>{{ field }}: {{ messages|join:", " }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="section-title">Supplier Information</div>
+
+            <form method="POST" action="{% url 'supplier-detail' supplier.id %}">
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="form-group full-width">
+                        <label>Name <span class="required">*</span></label>
+                        <input type="text" name="name"
+                               value="{{ form_data.name|default:supplier.name }}"
+                               minlength="2" maxlength="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number <span class="required">*</span></label>
+                        <input type="tel" name="phone_number"
+                               value="{{ form_data.phone_number|default:supplier.phone_number }}"
+                               pattern="[6-9][0-9]{9}" maxlength="10"
+                               minlength="10" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alternate Phone Number</label>
+                        <input type="tel" name="alternate_phone_number"
+                               value="{{ form_data.alternate_phone_number|default:supplier.alternate_phone_number }}"
+                               pattern="[6-9][0-9]{9}" maxlength="10"
+                               minlength="10">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Email <span class="required">*</span></label>
+                        <input type="email" name="email"
+                               value="{{ form_data.email|default:supplier.email }}"
+                               maxlength="254" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>GST Number</label>
+                        <input type="text" name="gst_number"
+                               value="{{ form_data.gst_number|default:supplier.gst_number }}"
+                               pattern="[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z][1-9A-Za-z]Z[0-9A-Za-z]"
+                               maxlength="15" minlength="15"
+                               style="text-transform: uppercase;">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Address <span class="required">*</span></label>
+                        <textarea name="address" minlength="5"
+                                  maxlength="500" required>{{ form_data.address|default:supplier.address }}</textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary">
+                        Update Supplier
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="delete-section">
+                <h3>Delete Supplier</h3>
+                <p>
+                    Permanently delete this supplier from your inventory system.
+                    This action cannot be undone.
+                </p>
+
+                <form method="POST"
+                      action="{% url 'supplier-detail' supplier.id %}"
+                      onsubmit="return confirm('Are you sure you want to delete this supplier?');">
+
+                    {% csrf_token %}
+
+                    <button type="submit" name="action" value="delete"
+                            class="btn btn-danger">
+                        Delete Supplier
+                    </button>
+
+                </form>
+            </div>
+
+            <!-- <a href="{% url 'supplier-list' %}" class="back-link">
+                ← Back to Suppliers
+            </a> -->
+
         </div>
-
-        <div class="form-group">
-            <label>Alternate Phone Number</label>
-
-            <input
-                type="tel"
-                name="alternate_phone_number"
-                value="{{ form_data.alternate_phone_number|default:supplier.alternate_phone_number }}"
-                pattern="[6-9][0-9]{9}"
-                maxlength="10"
-                minlength="10"
-            >
-        </div>
-
-        <div class="form-group">
-            <label>Email <span class="required">*</span></label>
-
-            <input
-                type="email"
-                name="email"
-                value="{{ form_data.email|default:supplier.email }}"
-                maxlength="254"
-                required
-            >
-        </div>
-
-        <div class="form-group">
-            <label>GST Number</label>
-
-            <input
-                type="text"
-                name="gst_number"
-                value="{{ form_data.gst_number|default:supplier.gst_number }}"
-                pattern="[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z][1-9A-Za-z]Z[0-9A-Za-z]"
-                maxlength="15"
-                minlength="15"
-            >
-        </div>
-
-        <div class="form-group">
-            <label>Address <span class="required">*</span></label>
-
-            <textarea
-                name="address"
-                minlength="5"
-                maxlength="500"
-                required
-            >{{ form_data.address|default:supplier.address }}</textarea>
-        </div>
-
-        <button type="submit" class="update-btn">
-            Update Supplier
-        </button>
-
-    </form>
-
-    <hr class="divider">
-
-    <!-- Delete Supplier Form -->
-
-    <div class="delete-section">
-
-        <h3>Delete Supplier</h3>
-
-        <p>
-            Permanently delete this supplier from your inventory system.
-            This action cannot be undone.
-        </p>
-
-        <form method="POST"
-              action="{% url 'supplier-detail' supplier.id %}"
-              onsubmit="return confirm('Are you sure you want to delete this supplier?');">
-
-            {% csrf_token %}
-
-            <button
-                type="submit"
-                name="action"
-                value="delete"
-                class="delete-btn">
-
-                Delete Supplier
-
-            </button>
-
-        </form>
 
     </div>
-
-    <a href="{% url 'supplier-list' %}" class="back">
-        ← Back to Suppliers
-    </a>
 
 </div>
 
-
 {% endblock %}
-<!-- </body>
-</html> -->
-

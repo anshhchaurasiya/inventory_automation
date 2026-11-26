@@ -1,199 +1,495 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Existing Product Stock</title> -->
 
 {% extends 'base.html' %}
 
 {% block title %}Add Existing Product Stock{% endblock %}
 
-{% block extra_css %}    
+{% block extra_css %}
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            background-color: #f9fafb;
+<style>
+    /* Main Page */
+
+    .stock-page {
+        min-height: calc(100vh - 60px);
+        padding: 32px 24px;
+        background: #f6f6f7;
+        color: #202223;
+        font-family: Arial, sans-serif;
+    }
+
+    .stock-wrapper {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    /* Header */
+
+    .stock-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .stock-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        color: #202223;
+        margin: 0;
+    }
+
+    .stock-header p {
+        margin-top: 7px;
+        font-size: 14px;
+        color: #6d7175;
+    }
+
+    /* Buttons */
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        white-space: nowrap;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .btn-primary {
+        background: #303030;
+        color: #ffffff;
+        border-color: #303030;
+    }
+
+    .btn-primary:hover {
+        background: #1a1a1a;
+        color: #ffffff;
+    }
+
+    .btn-secondary {
+        background: #ffffff;
+        color: #303030;
+        border-color: #c9cccf;
+    }
+
+    .btn-secondary:hover {
+        background: #f3f4f6;
+        color: #202223;
+    }
+
+    /* Alerts */
+
+    .alert {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 15px 18px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .alert-success {
+        background: #e8f7ed;
+        color: #176c35;
+        border: 1px solid #b8e6c7;
+    }
+
+    .alert-error {
+        background: #fce4e4;
+        color: #b42318;
+        border: 1px solid #f5c2c2;
+    }
+
+    .alert-error p {
+        margin: 0 0 5px;
+    }
+
+    .alert-error p:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Form Card */
+
+    .stock-form-card {
+        max-width: 760px;
+        margin: 0 auto;
+        background: #ffffff;
+        border: 1px solid #e1e3e5;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+    }
+
+    .form-card-header {
+        padding: 24px 28px;
+        border-bottom: 1px solid #e1e3e5;
+    }
+
+    .form-card-header h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #202223;
+        margin: 0;
+    }
+
+    .form-card-header p {
+        font-size: 13px;
+        color: #6d7175;
+        margin-top: 7px;
+        line-height: 1.5;
+    }
+
+    /* Form */
+
+    .stock-form {
+        padding: 28px;
+    }
+
+    .form-section {
+        border: 1px solid #e1e3e5;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .section-header {
+        padding: 17px 20px;
+        background: #fafafa;
+        border-bottom: 1px solid #e1e3e5;
+    }
+
+    .section-header h4 {
+        font-size: 15px;
+        font-weight: 600;
+        color: #303030;
+        margin: 0;
+    }
+
+    .section-header p {
+        font-size: 12px;
+        color: #6d7175;
+        margin-top: 5px;
+    }
+
+    .section-body {
+        padding: 24px 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 22px;
+    }
+
+    .form-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        font-size: 13px;
+        font-weight: 500;
+        color: #616161;
+        margin-bottom: 8px;
+    }
+
+    .form-group input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 14px;
+        border: 1px solid #c9cccf;
+        border-radius: 9px;
+        background: #ffffff;
+        color: #202223;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s ease,
+                    box-shadow 0.2s ease;
+    }
+
+    .form-group input::placeholder {
+        color: #9ca3af;
+    }
+
+    .form-group input:hover {
+        border-color: #8c9196;
+    }
+
+    .form-group input:focus {
+        border-color: #303030;
+        box-shadow: 0 0 0 3px rgba(48, 48, 48, 0.10);
+    }
+
+    /* Form Footer */
+
+    .form-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 20px 28px;
+        background: #fafafa;
+        border-top: 1px solid #e1e3e5;
+    }
+
+    .footer-note {
+        font-size: 12px;
+        color: #6d7175;
+    }
+
+    .form-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 600px) {
+        .stock-page {
+            padding: 16px 10px;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-        
-        .btn {
-            padding: 9px 15px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
+        .stock-header {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .form-container {
-            max-width: 500px;
-            margin: 40px auto;
-            background: white;
-            padding: 25px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        .stock-header h2 {
+            font-size: 22px;
         }
 
-        .form-container h3 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: #333;
+        .stock-header .btn {
+            width: 100%;
         }
 
-        .form-group {
-            margin-bottom: 18px;
+        .form-card-header {
+            padding: 20px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 14px;
+        .stock-form {
+            padding: 16px;
         }
 
-        .form-group input {
+        .section-body {
+            padding: 18px 16px;
+        }
+
+        .form-footer {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 18px 16px;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+            width: 100%;
+        }
+
+        .form-actions .btn {
             width: 100%;
             box-sizing: border-box;
-            padding: 11px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
         }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 11px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 15px;
-            cursor: pointer;
-        }
-
-        .submit-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .back-link {
-            display: block;
+        .footer-note {
             text-align: center;
-            margin-top: 18px;
-            color: #007bff;
-            text-decoration: none;
-            font-size: 14px;
         }
-    </style>
-{% endblock %}
-<!-- </head> -->
+    }
+</style>
 
-<!-- <body> -->
+{% endblock %}
+
+
 {% block content %}
 
-    <div class="header">
-        <h2>Inventory Management</h2>
+<div class="stock-page">
 
-        <a href="{% url 'product-list' %}" class="btn">
-            View Products
-        </a>
-    </div>
-    <!-- Success Response -->
+    <div class="stock-wrapper">
 
-{% if success %}
-    <div style="background: #d4edda; color: #155724;
-                padding: 12px; border-radius: 5px; margin-bottom: 15px;">
-        {{ success }}
-    </div>
-{% endif %}
+        <!-- Header -->
 
+        <div class="stock-header">
 
-<!-- Error Response -->
-
-{% if errors %}
-    <div style="background: #f8d7da; color: #721c24;
-                padding: 12px; border-radius: 5px; margin-bottom: 15px;">
-
-        {% for field, error_list in errors.items %}
-            {% for error in error_list %}
-                <p>{{ field }}: {{ error }}</p>
-            {% endfor %}
-        {% endfor %}
-
-    </div>
-{% endif %}
-    <div class="form-container">
-
-        <h3>Add Stock to Existing Product</h3>
-
-        <form method="POST">
-
-            {% csrf_token %}
-
-            <div class="form-group">
-                <label for="sku">Product SKU</label>
-
-                <input
-                    type="text"
-                    id="sku"
-                    name="sku"
-                    placeholder="Enter product SKU (e.g. PROD-001)"
-                    required
-                >
+            <div>
+                <h2>Inventory Management</h2>
+                <p>Manage and update stock for your existing products.</p>
             </div>
 
-            <div class="form-group">
-                <label for="additional_quantity">
-                    Additional Quantity
-                </label>
+            <a href="{% url 'product-list' %}" class="btn btn-secondary">
+                View Products
+            </a>
 
-                <input
-                    type="number"
-                    id="additional_quantity"
-                    name="additional_quantity"
-                    placeholder="Enter quantity to add"
-                    min="1"
-                    required
-                >
+        </div>
+
+
+        <!-- Success Message -->
+
+        {% if success %}
+
+        <div class="alert alert-success" role="alert">
+
+            <span>{{ success }}</span>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- Error Messages -->
+
+        {% if errors %}
+
+        <div class="alert alert-error" role="alert">
+
+            <div>
+
+                {% for field, error_list in errors.items %}
+
+                    {% for error in error_list %}
+
+                        <p>{{ field }}: {{ error }}</p>
+
+                    {% endfor %}
+
+                {% endfor %}
+
             </div>
-                <div class="form-group">
-                <label for="Reason">
-                    Reason
-                </label>
 
-                <input
-                    type="text"
-                    id="Reason"
-                    name="Reason"
-                    placeholder="Enter reason for stock addition"
-                >
+        </div>
+
+        {% endif %}
+
+
+        <!-- Main Form Card -->
+
+        <div class="stock-form-card">
+
+            <div class="form-card-header">
+
+                <h3>Add Stock to Existing Product</h3>
+
+                <p>
+                    Enter the product SKU and the additional quantity
+                    you want to add to your inventory.
+                </p>
+
             </div>
 
 
-            <button type="submit" class="submit-btn">
-                Add Stock
-            </button>
+            <form method="POST" class="stock-form">
 
-        </form>
+                {% csrf_token %}
 
-        <a href="{% url 'product-list' %}" class="back-link">
-            ← Back to Product List
-        </a>
+                <div class="form-section">
+
+                    <div class="section-header">
+
+                        <h4>Stock Information</h4>
+
+                        <p>Provide the details for this stock addition.</p>
+
+                    </div>
+
+
+                    <div class="section-body">
+
+                        <!-- Product SKU -->
+
+                        <div class="form-group">
+
+                            <label for="sku">
+                                Product SKU
+                            </label>
+
+                            <input
+                                type="text"
+                                id="sku"
+                                name="sku"
+                                placeholder="Enter product SKU (e.g. PROD-001)"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- Additional Quantity -->
+
+                        <div class="form-group">
+
+                            <label for="additional_quantity">
+                                Additional Quantity
+                            </label>
+
+                            <input
+                                type="number"
+                                id="additional_quantity"
+                                name="additional_quantity"
+                                placeholder="Enter quantity to add"
+                                min="1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- Reason -->
+
+                        <div class="form-group">
+
+                            <label for="Reason">
+                                Reason
+                            </label>
+
+                            <input
+                                type="text"
+                                id="Reason"
+                                name="Reason"
+                                placeholder="Enter reason for stock addition"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Form Actions -->
+
+                <div class="form-footer">
+
+                    <div class="footer-note">
+                        Update your inventory with additional stock.
+                    </div>
+
+                    <div class="form-actions">
+
+                        <a href="{% url 'product-list' %}" class="btn btn-secondary">
+                            Cancel
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+                            Add Stock
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
+
+</div>
+
 {% endblock %}
-
-<!-- </body>
-</html> -->

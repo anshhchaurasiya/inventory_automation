@@ -1,208 +1,400 @@
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Inventory</title> -->
-
 {% extends 'base.html' %}
 
 {% block title %}Product List{% endblock %}
 
 {% block extra_css %}
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            background-color: #ffffff;
-        }
+<style>
+    /* Main Page */
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    .product-page {
+        padding: 28px 24px;
+        background: #f6f6f7;
+        min-height: calc(100vh - 60px);
+        color: #202223;
+        font-family: Arial, sans-serif;
+    }
 
-        /* Buttons */
+    /* Header */
 
-        .btn {
-            padding: 8px 14px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
+    .product-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
 
-        /* Search Section */
+    .product-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin: 0;
+        color: #202223;
+    }
 
-        .search-section {
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 18px;
-            margin-bottom: 22px;
-        }
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
 
-        .search-heading {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #333;
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background 0.2s ease;
+    }
+
+    .btn-primary {
+        background: #303030;
+        color: #ffffff;
+        border: 1px solid #303030;
+    }
+
+    .btn-primary:hover {
+        background: #1a1a1a;
+        color: #ffffff;
+    }
+
+    .btn-secondary {
+        background: #ffffff;
+        color: #303030;
+        border: 1px solid #d1d5db;
+    }
+
+    .btn-secondary:hover {
+        background: #f3f4f6;
+        color: #202223;
+    }
+
+    /* Search / Filter Card */
+
+    .search-section {
+        background: #ffffff;
+        border: 1px solid #e1e3e5;
+        border-radius: 12px;
+        padding: 22px;
+        margin-bottom: 22px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .search-heading {
+        font-size: 16px;
+        font-weight: 600;
+        color: #202223;
+        margin-bottom: 18px;
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .search-input {
+        flex: 1;
+        min-width: 180px;
+    }
+
+    .search-input input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 14px;
+        background: #ffffff;
+        border: 1px solid #c9cccf;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #202223;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input input:focus {
+        border-color: #303030;
+        box-shadow: 0 0 0 2px rgba(48, 48, 48, 0.12);
+    }
+
+    .search-input input::placeholder {
+        color: #8c9196;
+    }
+
+    .search-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .search-button {
+        padding: 12px 22px;
+        background: #303030;
+        color: #ffffff;
+        border: 1px solid #303030;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .search-button:hover {
+        background: #1a1a1a;
+    }
+
+    .reset-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 18px;
+        background: #ffffff;
+        color: #303030;
+        border: 1px solid #c9cccf;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .reset-button:hover {
+        background: #f6f6f7;
+        color: #202223;
+    }
+
+    /* Product Table Card */
+
+    .product-table-card {
+        background: #ffffff;
+        border: 1px solid #e1e3e5;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 22px;
+        border-bottom: 1px solid #e1e3e5;
+    }
+
+    .table-header h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #202223;
+    }
+
+    .product-count {
+        font-size: 13px;
+        color: #6d7175;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+        min-width: 850px;
+    }
+
+    th {
+        background: #f6f6f7;
+        color: #616161;
+        font-size: 13px;
+        font-weight: 600;
+        text-align: left;
+        padding: 15px 18px;
+        border-bottom: 1px solid #e1e3e5;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 17px 18px;
+        font-size: 14px;
+        color: #303030;
+        border-bottom: 1px solid #e1e3e5;
+        vertical-align: middle;
+    }
+
+    tbody tr {
+        transition: background 0.15s ease;
+    }
+
+    tbody tr:hover {
+        background: #f9fafb;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .product-id {
+        color: #6d7175;
+        font-size: 13px;
+    }
+
+    .product-sku {
+        font-weight: 600;
+        color: #303030;
+    }
+
+    .product-name {
+        font-weight: 500;
+        color: #202223;
+    }
+
+    .product-category {
+        color: #616161;
+    }
+
+    .product-supplier {
+        color: #303030;
+    }
+
+    .product-price {
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    /* Stock Badges */
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .in-stock {
+        background: #c9f7d5;
+        color: #176c35;
+    }
+
+    .out-of-stock {
+        background: #fce4e4;
+        color: #b42318;
+    }
+
+    /* Empty State */
+
+    .empty-state {
+        text-align: center;
+        padding: 45px 20px !important;
+        color: #6d7175 !important;
+        font-size: 14px;
+    }
+
+    /* Responsive Design */
+
+    @media (max-width: 900px) {
+        .product-page {
+            padding: 22px 16px;
         }
 
         .search-bar {
-            display: flex;
-            align-items: center;
             gap: 12px;
-            flex-wrap: wrap;
         }
 
         .search-input {
-            flex: 1;
-            min-width: 180px;
+            min-width: 220px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .product-page {
+            padding: 16px 10px;
         }
 
-        .search-input input {
+        .product-header {
+            align-items: flex-start;
+            flex-direction: column;
+            margin-bottom: 18px;
+        }
+
+        .product-header h2 {
+            font-size: 22px;
+        }
+
+        .header-actions {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .header-actions .btn {
             width: 100%;
             box-sizing: border-box;
-            padding: 11px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
-            transition: border 0.2s;
         }
 
-        .search-input input:focus {
-            border-color: #007bff;
+        .search-section {
+            padding: 16px;
         }
 
-        .search-input input::placeholder {
-            color: #9ca3af;
+        .search-bar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .search-input {
+            width: 100%;
+            min-width: 0;
         }
 
         .search-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .search-button {
-            padding: 11px 22px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .search-button:hover {
-            background: #0056b3;
-        }
-
-        .reset-button {
-            padding: 11px 16px;
-            background: #f3f4f6;
-            color: #374151;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .reset-button:hover {
-            background: #e5e7eb;
-        }
-
-        /* Product Table */
-
-        table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
         }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
+        .search-button,
+        .reset-button {
+            flex: 1;
         }
 
-        th {
-            background-color: #f4f4f4;
+        .table-header {
+            padding: 15px;
         }
-
-        .badge {
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        .in-stock {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .out-of-stock {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        /* Responsive Design */
-
-        @media (max-width: 700px) {
-            body {
-                margin: 15px;
-            }
-
-            .search-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .search-input {
-                width: 100%;
-            }
-
-            .search-actions {
-                width: 100%;
-            }
-
-            .search-button,
-            .reset-button {
-                flex: 1;
-                text-align: center;
-            }
-
-            .header {
-                gap: 10px;
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+    }
+</style>
 {% endblock %}
-<!-- </head>
 
-<body> -->
 
-<!-- Header -->
- {% block content %}
+{% block content %}
 
-<div class="header">
-    <h2>Products</h2>
+<div class="product-page">
 
-    <div style="display: flex; gap: 10px;">
-        <a href="{% url 'product-add' %}" class="btn">
-            + Add New Product
-        </a>
+    <!-- Header -->
 
-        <a href="{% url 'add-existing-product' %}" class="btn">
-            + Add Stock to Existing Product
-        </a>
+    <div class="product-header">
+
+        <h2>Products</h2>
+
+        <div class="header-actions">
+
+            <a href="{% url 'product-add' %}" class="btn btn-primary">
+                + Add New Product
+            </a>
+
+            <a href="{% url 'add-existing-product' %}" class="btn btn-secondary">
+                + Add Stock to Existing Product
+            </a>
+
+        </div>
+
     </div>
-</div>
+
 
     <!-- Search / Filter Section -->
 
@@ -219,34 +411,21 @@
                 <!-- Product Name Filter -->
 
                 <div class="search-input">
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Product name..."
-                        value="{{ request.GET.name|default:'' }}"
-                    >
+                    <input type="text" name="name" placeholder="Product name..."
+                        value="{{ request.GET.name|default:'' }}">
                 </div>
 
                 <!-- SKU Filter -->
 
                 <div class="search-input">
-                    <input
-                        type="text"
-                        name="sku"
-                        placeholder="SKU..."
-                        value="{{ request.GET.sku|default:'' }}"
-                    >
+                    <input type="text" name="sku" placeholder="SKU..." value="{{ request.GET.sku|default:'' }}">
                 </div>
 
                 <!-- Supplier Filter -->
 
                 <div class="search-input">
-                    <input
-                        type="text"
-                        name="supplier"
-                        placeholder="Supplier name..."
-                        value="{{ request.GET.supplier|default:'' }}"
-                    >
+                    <input type="text" name="supplier" placeholder="Supplier name..."
+                        value="{{ request.GET.supplier|default:'' }}">
                 </div>
 
                 <!-- Search Actions -->
@@ -272,70 +451,105 @@
 
     <!-- Product Table -->
 
-    <table>
+    <div class="product-table-card">
 
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>SKU</th>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>Supplier Name</th>
-                <th>Price Per Unit (₹)</th>
-                <th>Current Stock</th>
-            </tr>
-        </thead>
+        <div class="table-header">
 
-        <tbody>
+            <h3>All Products</h3>
 
-            {% for product in products %}
+        </div>
 
-            <tr>
-                <td>{{ product.id }}</td>
+        <div class="table-wrapper">
 
-                <td>
-                    <strong>{{ product.sku }}</strong>
-                </td>
+            <table>
 
-                <td>{{ product.name }}</td>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>SKU</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Supplier Name</th>
+                        <th>Price Per Unit (₹)</th>
+                        <th>GST (%)</th>
+                        <th>Current Stock</th>
+                    </tr>
+                </thead>
 
-                <td>{{ product.category.name }}</td>
+                <tbody>
 
-                <td>{{ product.supplier.name|default:"N/A" }}</td>
+                    {% for product in products %}
 
-                <td>{{ product.price }}</td>
+                    <tr>
 
-                <td>
-                    {% if product.stock_quantity > 0 %}
+                        <td class="product-id">
+                            {{ forloop.counter }}
+                        </td>
 
-                        <span class="badge in-stock">
-                            {{ product.stock_quantity }} units
-                        </span>
+                        <td>
+                            <span class="product-sku">
+                                {{ product.sku }}
+                            </span>
+                        </td>
 
-                    {% else %}
+                        <td>
+                            <span class="product-name">
+                                {{ product.name }}
+                            </span>
+                        </td>
 
-                        <span class="badge out-of-stock">
-                            0 (Out of stock)
-                        </span>
+                        <td class="product-category">
+                            {{ product.category.name }}
+                        </td>
 
-                    {% endif %}
-                </td>
-            </tr>
+                        <td class="product-supplier">
+                            {{ product.supplier.name|default:"N/A" }}
+                        </td>
 
-            {% empty %}
+                        <td class="product-price">
+                            ₹{{ product.price }}
+                        </td>
 
-            <tr>
-                <td colspan="7" style="text-align: center; color: #888;">
-                    No products found. Click "+ Add New Product" to create one.
-                </td>
-            </tr>
+                        <td>0</td>
 
-            {% endfor %}
+                        <td>
 
-        </tbody>
+                            {% if product.stock_quantity > 0 %}
 
-    </table>
+                            <span class="badge in-stock">
+                                {{ product.stock_quantity }} units
+                            </span>
 
-{% endblock %}    
-<!-- </body>
-</html> -->
+                            {% else %}
+
+                            <span class="badge out-of-stock">
+                                0 (Out of stock)
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            No products found. Click "+ Add New Product" to create one.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
