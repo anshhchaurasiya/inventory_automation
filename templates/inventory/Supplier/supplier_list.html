@@ -1,118 +1,351 @@
+
 {% extends 'base.html' %}
 
 {% block title %}Supplier Management{% endblock %}
 
 {% block extra_css %}
+
 <style>
-    h2 {
-        text-align: center;
-        margin-bottom: 25px;
+    /* Main Page */
+
+    .supplier-page {
+        padding: 28px 24px;
+        background: #f6f6f7;
+        min-height: calc(100vh - 60px);
+        color: #202223;
+        font-family: Arial, sans-serif;
     }
 
-    .add-btn {
-        display: block;
-        width: fit-content;
-        margin-left: auto;
-        margin-right: 0;
-        padding: 10px 18px;
-        background-color: #28a745;
-        color: white;
+    /* Header */
+
+    .supplier-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+
+    .supplier-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin: 0;
+        color: #202223;
+    }
+
+    .supplier-header p {
+        font-size: 14px;
+        color: #6d7175;
+        margin-top: 7px;
+    }
+
+    /* Buttons */
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
         text-decoration: none;
-        border-radius: 5px;
-        margin-bottom: 15px;
+        white-space: nowrap;
+        transition: background 0.2s ease;
     }
 
-    .add-btn:hover {
-        background-color: #218838;
+    .btn-primary {
+        background: #303030;
+        color: #ffffff;
+        border: 1px solid #303030;
+    }
+
+    .btn-primary:hover {
+        background: #1a1a1a;
+        color: #ffffff;
+    }
+
+    /* Supplier Table Card */
+
+    .supplier-table-card {
+        background: #ffffff;
+        border: 1px solid #e1e3e5;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 22px;
+        border-bottom: 1px solid #e1e3e5;
+    }
+
+    .table-header h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #202223;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
-        background-color: white;
-    }
-
-    th, td {
-        padding: 12px;
-        border: 1px solid #ddd;
-        text-align: left;
+        margin: 0;
+        min-width: 1050px;
     }
 
     th {
-        background-color: #333;
-        color: white;
+        background: #f6f6f7;
+        color: #616161;
+        font-size: 13px;
+        font-weight: 600;
+        text-align: left;
+        padding: 15px 18px;
+        border-bottom: 1px solid #e1e3e5;
+        white-space: nowrap;
     }
 
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
+    td {
+        padding: 16px 18px;
+        font-size: 14px;
+        color: #303030;
+        border-bottom: 1px solid #e1e3e5;
+        vertical-align: middle;
     }
+
+    tbody tr {
+        transition: background 0.15s ease;
+    }
+
+    tbody tr:hover {
+        background: #f9fafb;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Supplier Information */
+
+    .supplier-id {
+        color: #6d7175;
+        font-size: 13px;
+    }
+
+    .supplier-name {
+        font-weight: 600;
+        color: #202223;
+    }
+
+    .supplier-contact {
+        color: #303030;
+        white-space: nowrap;
+    }
+
+    .supplier-email {
+        color: #303030;
+    }
+
+    .supplier-gst {
+        color: #616161;
+        white-space: nowrap;
+    }
+
+    .supplier-address {
+        color: #616161;
+        min-width: 180px;
+        max-width: 280px;
+        line-height: 1.5;
+    }
+
+    /* View Button */
+
+    .view-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 16px;
+        background: #ffffff;
+        color: #303030;
+        border: 1px solid #c9cccf;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 500;
+        transition: background 0.2s ease;
+    }
+
+    .view-btn:hover {
+        background: #f3f4f6;
+        color: #202223;
+    }
+
+    /* Empty State */
 
     .empty {
         text-align: center;
-        padding: 20px;
+        padding: 45px 20px !important;
+        color: #6d7175 !important;
+        font-size: 14px;
     }
 
-    .view-btn {
-        background-color: #007bff;
-        color: white;
-        padding: 7px 12px;
-        text-decoration: none;
-        border-radius: 4px;
+    /* Responsive */
+
+    @media (max-width: 900px) {
+        .supplier-page {
+            padding: 22px 16px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .supplier-page {
+            padding: 16px 10px;
+        }
+
+        .supplier-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .supplier-header h2 {
+            font-size: 22px;
+        }
+
+        .supplier-header .btn {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .table-header {
+            padding: 15px;
+        }
     }
 </style>
+
 {% endblock %}
 
 
 {% block content %}
 
-<h2>Supplier Management</h2>
+<div class="supplier-page">
 
-<a href="{% url 'supplier-add' %}" class="add-btn">
-    + Add Supplier
-</a>
+    <!-- Header -->
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Alternate Phone Number</th>
-            <th>Email</th>
-            <th>GST Number</th>
-            <th>Address</th>
-            <th>Action</th>
-        </tr>
-    </thead>
+    <div class="supplier-header">
 
-    <tbody>
+        <div>
+            <h2>Suppliers</h2>
+            <p>Manage your suppliers and their contact information.</p>
+        </div>
 
-        {% for supplier in suppliers %}
-        <tr>
-            <td>{{ supplier.id }}</td>
-            <td>{{ supplier.name }}</td>
-            <td>{{ supplier.phone_number }}</td>
-            <td>{{ supplier.alternate_phone_number }}</td>
-            <td>{{ supplier.email }}</td>
-            <td>{{ supplier.gst_number }}</td>
-            <td>{{ supplier.address }}</td>
+        <a href="{% url 'supplier-add' %}" class="btn btn-primary">
+            + Add Supplier
+        </a>
 
-            <td>
-                <a href="{% url 'supplier-detail' supplier.id %}" class="view-btn">
-                    View
-                </a>
-            </td>
-        </tr>
+    </div>
 
-        {% empty %}
-        <tr>
-            <td colspan="8" class="empty">
-                No suppliers found.
-            </td>
-        </tr>
-        {% endfor %}
 
-    </tbody>
-</table>
+    <!-- Supplier Table -->
+
+    <div class="supplier-table-card">
+
+        <div class="table-header">
+
+            <h3>All Suppliers</h3>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Alternate Phone Number</th>
+                        <th>Email</th>
+                        <th>GST Number</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for supplier in suppliers %}
+
+                    <tr>
+
+                        <td class="supplier-id">
+                            {{ supplier.id }}
+                        </td>
+
+                        <td>
+                            <span class="supplier-name">
+                                {{ supplier.name }}
+                            </span>
+                        </td>
+
+                        <td class="supplier-contact">
+                            {{ supplier.phone_number }}
+                        </td>
+
+                        <td class="supplier-contact">
+                            {{ supplier.alternate_phone_number }}
+                        </td>
+
+                        <td class="supplier-email">
+                            {{ supplier.email }}
+                        </td>
+
+                        <td class="supplier-gst">
+                            {{ supplier.gst_number }}
+                        </td>
+
+                        <td class="supplier-address">
+                            {{ supplier.address }}
+                        </td>
+
+                        <td>
+                            <a
+                                href="{% url 'supplier-detail' supplier.id %}"
+                                class="view-btn"
+                            >
+                                View
+                            </a>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="8" class="empty">
+                            No suppliers found.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

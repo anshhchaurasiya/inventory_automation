@@ -8,6 +8,7 @@ Role_choices = (
     ('Admin', 'Admin'),
     ('Manager','Manager'),
     ('Staff','Staff'),
+    ('Sales','Sales')
     )
 
 class CustomUser(AbstractUser):

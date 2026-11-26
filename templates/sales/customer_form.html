@@ -1,209 +1,258 @@
-
 {% extends 'base.html' %}
 
 {% block title %}Shopping Cart{% endblock %}
 
 {% block extra_css %}
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-body {
-    background: #f4f6fa;
-    color: #1e293b;
-    padding: 30px 18px;
-}
+    body {
+        background: #f3f5f8;
+        color: #172033;
+        padding: 30px 24px;
+    }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-}
+    .container {
+        max-width: 1100px;
+        margin: auto;
+    }
 
-.page-header {
-    margin-bottom: 25px;
-}
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 26px;
+    }
 
-.page-header h1 {
-    font-size: 25px;
-    margin-bottom: 7px;
-}
+    .page-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #172033;
+        margin-bottom: 6px;
+    }
 
-.page-header p {
-    color: #64748b;
-    font-size: 14px;
-}
+    .page-header p {
+        color: #64748b;
+        font-size: 15px;
+    }
 
-.checkout-layout {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 22px;
-    align-items: start;
-}
-
-.card {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 20px;
-    border: 1px solid #e8edf3;
-}
-
-.card-title {
-    font-size: 17px;
-    font-weight: 650;
-    margin-bottom: 20px;
-}
-
-.card-title span {
-    color: #64748b;
-    font-size: 12px;
-    font-weight: 400;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.full {
-    grid-column: span 2;
-}
-
-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #475569;
-}
-
-.required {
-    color: #ef4444;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #dbe2ea;
-    border-radius: 7px;
-    font-size: 14px;
-    outline: none;
-    background: white;
-    color: #334155;
-}
-
-input:focus, select:focus, textarea:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37,99,235,.08);
-}
-
-textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
-.summary-card {
-    position: sticky;
-    top: 20px;
-}
-
-.summary-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    margin-bottom: 16px;
-    color: #64748b;
-    gap: 10px;
-}
-
-.summary-row strong {
-    color: #334155;
-}
-
-.summary-total {
-    border-top: 1px solid #e2e8f0;
-    padding-top: 17px;
-    margin-top: 8px;
-    font-size: 17px;
-    color: #0f172a;
-    font-weight: 700;
-}
-
-.action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 15px;
-}
-
-.btn {
-    border: none;
-    padding: 13px 22px;
-    border-radius: 7px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.btn-cancel {
-    background: #e2e8f0;
-    color: #475569;
-}
-
-.btn-submit {
-    background: #2563eb;
-    color: white;
-}
-
-.btn-submit:hover {
-    background: #1d4ed8;
-}
-
-.btn-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.hidden {
-    display: none;
-}
-
-@media(max-width: 850px) {
+    /* Main checkout layout */
     .checkout-layout {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 22px;
+        align-items: start;
     }
 
-    .summary-card {
-        position: static;
+    /* White panels, like the reference form */
+    .card {
+        background: #fff;
+        border: 1px solid #e0e4e9;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(15, 23, 42, 0.04);
     }
-}
 
-@media(max-width: 550px) {
+    .card-title {
+        font-size: 18px;
+        font-weight: 650;
+        color: #172033;
+        margin-bottom: 20px;
+    }
+
+    .card-title span {
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    /* Form fields */
     .form-grid {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
     }
 
     .full {
-        grid-column: span 1;
+        grid-column: span 2;
     }
 
+    label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #475569;
+    }
+
+    .required {
+        color: #dc3545;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid #cfd5dc;
+        border-radius: 9px;
+        font-size: 14px;
+        outline: none;
+        background: #fff;
+        color: #334155;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: #94a3b8;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-color: #64748b;
+        box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.12);
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 90px;
+    }
+
+    /* Order summary */
+    .summary-card {
+        position: sticky;
+        top: 20px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 17px;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .summary-row strong {
+        color: #334155;
+        text-align: right;
+    }
+
+    .summary-total {
+        border-top: 1px solid #e2e8f0;
+        padding-top: 18px;
+        margin-top: 8px;
+        margin-bottom: 0;
+        font-size: 16px;
+        font-weight: 700;
+        color: #172033;
+    }
+
+    .summary-total strong {
+        color: #172033;
+        font-size: 18px;
+    }
+
+    /* Bottom action area */
     .action-buttons {
+        display: flex;
         flex-direction: column;
+        gap: 10px;
+        margin-top: 22px;
     }
 
     .btn {
         width: 100%;
+        border: 1px solid #cfd5dc;
+        padding: 13px 18px;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
     }
-}
+
+    .btn-cancel {
+        background: #fff;
+        color: #334155;
+    }
+
+    .btn-cancel:hover {
+        background: #f1f5f9;
+    }
+
+    .btn-submit {
+        background: #303030;
+        color: #fff;
+        border-color: #303030;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+        background: #1f1f1f;
+    }
+
+    .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    @media (max-width: 850px) {
+        .checkout-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .summary-card {
+            position: static;
+        }
+    }
+
+    @media (max-width: 550px) {
+        body {
+            padding: 20px 12px;
+        }
+
+        .page-header h1 {
+            font-size: 23px;
+        }
+
+        .card {
+            padding: 20px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .full {
+            grid-column: span 1;
+        }
+
+        .action-buttons {
+            flex-direction: column-reverse;
+            padding: 16px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -233,22 +282,18 @@ textarea {
 
                         <div class="form-group">
                             <label>Customer Name <span class="required">*</span></label>
-                            <input type="text" id="customer_name"
-                                   placeholder="Full name" required>
+                            <input type="text" id="customer_name" placeholder="Full name" required>
                         </div>
 
                         <div class="form-group">
                             <label>Mobile Number <span class="required">*</span></label>
-                            <input type="tel" id="phone"
-                                   placeholder="10-digit number"
-                                   pattern="[6-9][0-9]{9}"
-                                   maxlength="10" required>
+                            <input type="tel" id="phone" placeholder="10-digit number" pattern="[6-9][0-9]{9}"
+                                maxlength="10" required>
                         </div>
 
                         <div class="form-group">
                             <label>Email Address</label>
-                            <input type="email" id="email"
-                                   placeholder="example@email.com">
+                            <input type="email" id="email" placeholder="example@email.com">
                         </div>
 
                         <div class="form-group">
@@ -261,15 +306,12 @@ textarea {
 
                         <div class="form-group business-field hidden">
                             <label>Company Name</label>
-                            <input type="text" id="company_name"
-                                   placeholder="Business name">
+                            <input type="text" id="company_name" placeholder="Business name">
                         </div>
 
                         <div class="form-group business-field hidden">
                             <label>GSTIN Number</label>
-                            <input type="text" id="gstin"
-                                   placeholder="15-character GSTIN"
-                                   maxlength="15">
+                            <input type="text" id="gstin" placeholder="15-character GSTIN" maxlength="15">
                         </div>
 
                     </div>
@@ -285,15 +327,12 @@ textarea {
 
                         <div class="form-group full">
                             <label>Complete Address <span class="required">*</span></label>
-                            <textarea id="address"
-                                      placeholder="House number, street, locality"
-                                      required></textarea>
+                            <textarea id="address" placeholder="House number, street, locality" required></textarea>
                         </div>
 
                         <div class="form-group">
                             <label>City <span class="required">*</span></label>
-                            <input type="text" id="city" required
-                                   placeholder="Enter city">
+                            <input type="text" id="city" required placeholder="Enter city">
                         </div>
 
                         <div class="form-group">
@@ -323,10 +362,8 @@ textarea {
 
                         <div class="form-group">
                             <label>PIN Code <span class="required">*</span></label>
-                            <input type="text" id="pincode"
-                                   placeholder="6-digit PIN"
-                                   pattern="[1-9][0-9]{5}"
-                                   maxlength="6" required>
+                            <input type="text" id="pincode" placeholder="6-digit PIN" pattern="[1-9][0-9]{5}"
+                                maxlength="6" required>
                         </div>
 
                     </div>
@@ -353,8 +390,7 @@ textarea {
 
                         <div class="form-group">
                             <label>Additional Notes</label>
-                            <input type="text" id="notes"
-                                   placeholder="Optional notes">
+                            <input type="text" id="notes" placeholder="Optional notes">
                         </div>
 
                     </div>
@@ -396,23 +432,17 @@ textarea {
                             ₹{{ total|default:0 }}
                         </strong>
                     </div>
+                    <div class="action-buttons">
+                        <button type="reset" class="btn btn-cancel">Clear Form</button>
+
+                        <button type="submit" class="btn btn-submit">
+                            Pay & Place Order →
+                        </button>
+                    </div>
 
                 </div>
 
             </div>
-
-        </div>
-
-
-        <div class="action-buttons">
-
-            <button type="reset" class="btn btn-cancel">
-                Clear Form
-            </button>
-
-            <button type="submit" class="btn btn-submit">
-                Pay & Place Order →
-            </button>
 
         </div>
 
@@ -423,180 +453,180 @@ textarea {
 
 <script>
 
-// READ CSRF TOKEN
-function getCookie(name) {
+    // READ CSRF TOKEN
+    function getCookie(name) {
 
-    let cookieValue = null;
+        let cookieValue = null;
 
-    if (document.cookie) {
+        if (document.cookie) {
 
-        const cookies = document.cookie.split(";");
+            const cookies = document.cookie.split(";");
 
-        for (let cookie of cookies) {
+            for (let cookie of cookies) {
 
-            cookie = cookie.trim();
+                cookie = cookie.trim();
 
-            if (cookie.startsWith(name + "=")) {
+                if (cookie.startsWith(name + "=")) {
 
-                cookieValue = decodeURIComponent(
-                    cookie.substring(name.length + 1)
-                );
+                    cookieValue = decodeURIComponent(
+                        cookie.substring(name.length + 1)
+                    );
 
-                break;
+                    break;
+                }
             }
         }
-    }
 
-    return cookieValue;
-}
-
-
-// CUSTOMER TYPE TOGGLE
-const customerType = document.getElementById("customer_type");
-
-customerType.addEventListener("change", function() {
-
-    document.querySelectorAll(".business-field").forEach(field => {
-
-        field.classList.toggle("hidden", this.value !== "Business");
-
-    });
-
-    document.getElementById("company_name").required =
-        this.value === "Business";
-
-    document.getElementById("gstin").required = false;
-
-});
-
-
-// FINAL CHECKOUT - POST DATA TO DJANGO
-document.getElementById("checkoutForm").addEventListener("submit", async function(e) {
-
-    e.preventDefault();
-
-    const totalElement = document.getElementById("grandTotal");
-
-    const total = Number(totalElement.dataset.value || 0);
-
-    if (!Number.isFinite(total) || total <= 0) {
-
-        alert("Order total is not loaded. Please check your cart summary.");
-
-        return;
+        return cookieValue;
     }
 
 
-    // CUSTOMER DETAILS
-    const customerData = {
+    // CUSTOMER TYPE TOGGLE
+    const customerType = document.getElementById("customer_type");
 
-        customer_name: document.getElementById("customer_name").value.trim(),
+    customerType.addEventListener("change", function () {
 
-        phone: document.getElementById("phone").value.trim(),
+        document.querySelectorAll(".business-field").forEach(field => {
 
-        email: document.getElementById("email").value.trim(),
-
-        customer_type: document.getElementById("customer_type").value,
-
-        company_name: document.getElementById("company_name").value.trim(),
-
-        gstin: document.getElementById("gstin").value.trim(),
-
-        address: document.getElementById("address").value.trim(),
-
-        city: document.getElementById("city").value.trim(),
-
-        state: document.getElementById("state").value,
-
-        pincode: document.getElementById("pincode").value.trim(),
-
-        payment_method: document.getElementById("payment_method").value,
-
-        notes: document.getElementById("notes").value.trim(),
-
-        confirm_checkout: true
-
-    };
-
-
-    const submitButton = this.querySelector("button[type='submit']");
-
-    submitButton.disabled = true;
-
-    submitButton.textContent = "Processing...";
-
-
-    try {
-
-        const response = await fetch("/sales/checkout/", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": getCookie("csrftoken") || ""
-            },
-
-            credentials: "same-origin",
-
-            body: JSON.stringify(customerData)
+            field.classList.toggle("hidden", this.value !== "Business");
 
         });
 
+        document.getElementById("company_name").required =
+            this.value === "Business";
 
-        const result = await response.json();
+        document.getElementById("gstin").required = false;
+
+    });
 
 
-        if (!response.ok) {
+    // FINAL CHECKOUT - POST DATA TO DJANGO
+    document.getElementById("checkoutForm").addEventListener("submit", async function (e) {
 
-            console.error("Checkout error:", result);
+        e.preventDefault();
 
-            alert("Checkout failed: " + JSON.stringify(result));
+        const totalElement = document.getElementById("grandTotal");
+
+        const total = Number(totalElement.dataset.value || 0);
+
+        if (!Number.isFinite(total) || total <= 0) {
+
+            alert("Order total is not loaded. Please check your cart summary.");
 
             return;
         }
 
 
-        // CHECK SUCCESS RESPONSE
-        if (result.status !== "success" || !result.data) {
+        // CUSTOMER DETAILS
+        const customerData = {
 
-            console.error("Invalid checkout response:", result);
+            customer_name: document.getElementById("customer_name").value.trim(),
 
-            alert("Purchase was created, but invoice data was not returned.");
+            phone: document.getElementById("phone").value.trim(),
 
-            return;
+            email: document.getElementById("email").value.trim(),
+
+            customer_type: document.getElementById("customer_type").value,
+
+            company_name: document.getElementById("company_name").value.trim(),
+
+            gstin: document.getElementById("gstin").value.trim(),
+
+            address: document.getElementById("address").value.trim(),
+
+            city: document.getElementById("city").value.trim(),
+
+            state: document.getElementById("state").value,
+
+            pincode: document.getElementById("pincode").value.trim(),
+
+            payment_method: document.getElementById("payment_method").value,
+
+            notes: document.getElementById("notes").value.trim(),
+
+            confirm_checkout: true
+
+        };
+
+
+        const submitButton = this.querySelector("button[type='submit']");
+
+        submitButton.disabled = true;
+
+        submitButton.textContent = "Processing...";
+
+
+        try {
+
+            const response = await fetch("/sales/checkout/", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken") || ""
+                },
+
+                credentials: "same-origin",
+
+                body: JSON.stringify(customerData)
+
+            });
+
+
+            const result = await response.json();
+
+
+            if (!response.ok) {
+
+                console.error("Checkout error:", result);
+
+                alert("Checkout failed: " + JSON.stringify(result));
+
+                return;
+            }
+
+
+            // CHECK SUCCESS RESPONSE
+            if (result.status !== "success" || !result.data) {
+
+                console.error("Invalid checkout response:", result);
+
+                alert("Purchase was created, but invoice data was not returned.");
+
+                return;
+            }
+
+
+            // STORE PURCHASE + CUSTOMER DETAILS FOR INVOICE
+            sessionStorage.setItem(
+                "invoiceData",
+                JSON.stringify(result.data)
+            );
+
+
+            console.log("Invoice data:", result.data);
+
+
+            // REDIRECT TO INVOICE PAGE
+            window.location.href = "/sales/invoice/";
+
+
+        } catch (error) {
+
+            console.error("Checkout request failed:", error);
+
+            alert("Unable to connect to the checkout server. Please try again.");
+
+        } finally {
+
+            submitButton.disabled = false;
+
+            submitButton.textContent = "Pay & Place Order →";
+
         }
 
-
-        // STORE PURCHASE + CUSTOMER DETAILS FOR INVOICE
-        sessionStorage.setItem(
-            "invoiceData",
-            JSON.stringify(result.data)
-        );
-
-
-        console.log("Invoice data:", result.data);
-
-
-        // REDIRECT TO INVOICE PAGE
-        window.location.href = "/sales/invoice/";
-
-
-    } catch (error) {
-
-        console.error("Checkout request failed:", error);
-
-        alert("Unable to connect to the checkout server. Please try again.");
-
-    } finally {
-
-        submitButton.disabled = false;
-
-        submitButton.textContent = "Pay & Place Order →";
-
-    }
-
-});
+    });
 
 </script>
 

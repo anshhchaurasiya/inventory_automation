@@ -1,75 +1,526 @@
 <style>
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background: #172033;
-        color: white;
-        padding: 25px 15px;
-        box-sizing: border-box;
-        overflow-y: auto;
+    :root {
+        --sidebar-width: 250px;
+        --topbar-height: 64px;
+
+        --sidebar-bg: #172033;
+        --sidebar-hover: #26344d;
+        --sidebar-active: #33445f;
+        --sidebar-text: #d3dbe7;
+        --sidebar-muted: #aab6c8;
+
+        --navbar-bg: #172033;
+        --navbar-border: #26344d;
+        --navbar-text: #ffffff;
     }
 
-    .sidebar h2 {
-        font-size: 22px;
-        margin-bottom: 35px;
-        padding-left: 10px;
+    /* =========================
+       FIXED SIDEBAR
+       ========================= */
+    .sidebar {
+        position: fixed !important;
+        top: var(--topbar-height) !important;
+        left: 0 !important;
+        bottom: 0 !important;
+
+        width: var(--sidebar-width) !important;
+        min-width: var(--sidebar-width) !important;
+        max-width: var(--sidebar-width) !important;
+        height: calc(100vh - var(--topbar-height)) !important;
+
+        margin: 0 !important;
+        padding: 22px 14px !important;
+        box-sizing: border-box !important;
+
+        background: var(--sidebar-bg) !important;
+        color: #fff !important;
+
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable;
+
+        transform: none !important;
+        transition: none !important;
+        z-index: 1000 !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+        line-height: normal !important;
+    }
+
+    /* Brand appears in the navbar, not in the sidebar */
+    .sidebar .sidebar-brand {
+        display: none !important;
     }
 
     .sidebar .menu-title {
-        font-size: 11px;
-        color: #94a3b8;
-        margin: 25px 10px 12px;
-        letter-spacing: 1px;
-        font-weight: bold;
+        display: block !important;
+        margin: 25px 12px 10px !important;
+        padding: 0 !important;
+
+        color: var(--sidebar-muted) !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        line-height: 14px !important;
+        letter-spacing: 1.2px !important;
+        text-transform: none !important;
+
+        transform: none !important;
     }
 
-    .sidebar a {
-        display: block;
-        color: #cbd5e1;
-        text-decoration: none;
-        padding: 12px 14px;
-        margin-bottom: 5px;
-        border-radius: 7px;
-        font-size: 14px;
-        transition: 0.2s;
+    .sidebar a.menu-link,
+    .sidebar a.menu-link:link,
+    .sidebar a.menu-link:visited,
+    .sidebar a.menu-link:hover,
+    .sidebar a.menu-link:focus,
+    .sidebar a.menu-link:active,
+    .sidebar a.menu-link.active {
+        display: flex !important;
+        align-items: center !important;
+
+        width: 100% !important;
+        min-height: 42px !important;
+        height: 42px !important;
+
+        margin: 0 0 4px !important;
+        padding: 0 13px !important;
+        box-sizing: border-box !important;
+
+        gap: 13px !important;
+        border: 0 !important;
+        border-radius: 8px !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        line-height: 20px !important;
+        text-decoration: none !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+
+        color: var(--sidebar-text) !important;
+        background: transparent !important;
+
+        transform: none !important;
+        transition: background-color 0.15s ease, color 0.15s ease !important;
     }
 
-    .sidebar a:hover {
-        background: #334155;
-        color: white;
+    .sidebar a.menu-link svg {
+        display: block !important;
+        width: 18px !important;
+        min-width: 18px !important;
+        height: 18px !important;
+        min-height: 18px !important;
+        flex: 0 0 18px !important;
+
+        color: var(--sidebar-muted) !important;
+        transform: none !important;
     }
 
-    .sidebar a.active {
-        background: #2563eb;
-        color: white;
+    .sidebar a.menu-link:hover,
+    .sidebar a.menu-link:focus-visible {
+        background: var(--sidebar-hover) !important;
+        color: #fff !important;
+    }
+
+    .sidebar a.menu-link:hover svg,
+    .sidebar a.menu-link:focus-visible svg,
+    .sidebar a.menu-link.active svg {
+        color: #fff !important;
+    }
+
+    .sidebar a.menu-link.active {
+        background: var(--sidebar-active) !important;
+        color: #fff !important;
+    }
+
+    /* =========================
+       FIXED LIGHT NAVBAR
+       ========================= */
+    .top-navbar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+
+        width: 100% !important;
+        height: var(--topbar-height) !important;
+        min-height: var(--topbar-height) !important;
+        max-height: var(--topbar-height) !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        margin: 0 !important;
+        padding: 0 28px !important;
+        box-sizing: border-box !important;
+
+        background: var(--navbar-bg) !important;
+        color: var(--navbar-text) !important;
+        border: 0 !important;
+        border-bottom: 1px solid var(--navbar-border) !important;
+
+        transform: none !important;
+        transition: none !important;
+        z-index: 1100 !important;
+
+        font-family: Arial, sans-serif !important;
+    }
+
+    .topbar-brand {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        color: var(--navbar-text) !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        line-height: 20px !important;
+        white-space: nowrap !important;
+    }
+
+    .topbar-actions {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .topbar-icon-btn {
+        position: relative !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        width: 38px !important;
+        min-width: 38px !important;
+        height: 38px !important;
+        min-height: 38px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 9px !important;
+        background: #fff !important;
+        color: #475569 !important;
+
+        cursor: pointer !important;
+        text-decoration: none !important;
+        transform: none !important;
+    }
+
+    .topbar-icon-btn:hover {
+        background: #f1f5f9 !important;
+    }
+
+    .topbar-icon-btn svg {
+        width: 19px !important;
+        height: 19px !important;
+    }
+
+    .notification-dot {
+        position: absolute !important;
+        top: 7px !important;
+        right: 7px !important;
+
+        width: 7px !important;
+        height: 7px !important;
+
+        border: 1px solid #fff !important;
+        border-radius: 50% !important;
+        background: #ef4444 !important;
+    }
+
+    .profile-btn,
+    .profile-btn:link,
+    .profile-btn:visited,
+    .profile-btn:hover,
+    .profile-btn:focus {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+
+        height: 38px !important;
+        min-height: 38px !important;
+        margin: 0 !important;
+        padding: 0 11px !important;
+        box-sizing: border-box !important;
+
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 9px !important;
+        background: #fff !important;
+        color: #334155 !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        line-height: normal !important;
+        text-decoration: none !important;
+
+        transform: none !important;
+    }
+
+    .profile-btn:hover {
+        background: #f1f5f9 !important;
+    }
+
+    .profile-avatar {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        width: 25px !important;
+        min-width: 25px !important;
+        height: 25px !important;
+        min-height: 25px !important;
+
+        border-radius: 50% !important;
+        background: #e9edf3 !important;
+        color: #334155 !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+    }
+
+    .logout-btn,
+    .logout-btn:link,
+    .logout-btn:visited,
+    .logout-btn:hover,
+    .logout-btn:focus {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 7px !important;
+
+        height: 38px !important;
+        min-height: 38px !important;
+        margin: 0 !important;
+        padding: 0 12px !important;
+        box-sizing: border-box !important;
+
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 9px !important;
+        background: #fff !important;
+        color: #475569 !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        line-height: normal !important;
+        text-decoration: none !important;
+
+        transform: none !important;
+    }
+
+    .logout-btn:hover {
+        background: #fef2f2 !important;
+        border-color: #fecaca !important;
+        color: #b91c1c !important;
+    }
+
+    .logout-btn svg {
+        width: 17px !important;
+        height: 17px !important;
+        flex: 0 0 17px !important;
+    }
+
+    /* =========================
+       PAGE CONTENT POSITION
+       ========================= */
+    .main-content {
+        margin-left: var(--sidebar-width) !important;
+        padding: calc(var(--topbar-height) + 28px) 28px 28px !important;
+        min-height: 100vh !important;
+        box-sizing: border-box !important;
+    }
+
+    .topbar-icon-btn,
+    .profile-btn,
+    .logout-btn {
+        background: #26344d !important;
+        border-color: #3b4a62 !important;
+        color: #ffffff !important;
+    }
+
+    .profile-avatar {
+        background: #3b4a62 !important;
+        color: #ffffff !important;
+    }
+
+    .topbar-icon-btn:hover,
+    .profile-btn:hover {
+        background: #33445f !important;
+    }
+
+    .logout-btn:hover {
+        background: #7f1d1d !important;
+        border-color: #991b1b !important;
+        color: #ffffff !important;
+    }
+
+    .topbar-brand {
+        color: #ffffff !important;
+    }
+
+    /* Mobile sizing */
+    @media (max-width: 768px) {
+        :root {
+            --sidebar-width: 210px;
+        }
+
+        .top-navbar {
+            padding: 0 14px !important;
+        }
+
+        .main-content {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+        }
+
+        .profile-btn .profile-name,
+        .logout-btn .logout-text {
+            display: none !important;
+        }
     }
 </style>
 
+<!-- Sidebar -->
 <div class="sidebar">
-
-    <h2>📦 InventoryPro</h2>
-
     <p class="menu-title">MAIN MENU</p>
 
-    <a href="#">🏠 Dashboard</a>
-    <a href="{% url 'product-list' %}">📦 Products</a>
-    <a href="{% url 'supplier-list' %}">🚚 Suppliers</a>
-    <a href="#">📁 Categories</a>
-    <a href="{% url 'cart-page' %}">📁 Cart</a>
+    <a href="#" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m3 10 9-7 9 7" />
+            <path d="M5 9v12h14V9M9 21v-7h6v7" />
+        </svg>
+        Dashboard
+    </a>
 
+    <a href="{% url 'product-list' %}" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m12 3 9 5-9 5-9-5 9-5Z" />
+            <path d="M3 8v9l9 5 9-5V8M12 13v9" />
+        </svg>
+        Products
+    </a>
+
+    <a href="{% url 'supplier-list' %}" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 7h11v10H3zM14 10h4l3 3v4h-7" />
+            <circle cx="7.5" cy="19" r="2" />
+            <circle cx="17.5" cy="19" r="2" />
+        </svg>
+        Suppliers
+    </a>
+
+    <a href="#" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 5h18v14H3zM3 9h18M8 5v4M16 5v4" />
+        </svg>
+        Categories
+    </a>
+
+    <a href="{% url 'cart-page' %}" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 3h2l2.5 12.5h11L21 7H6" />
+            <circle cx="9" cy="20" r="1.5" />
+            <circle cx="18" cy="20" r="1.5" />
+        </svg>
+        Cart
+    </a>
 
     <p class="menu-title">INVENTORY</p>
 
-    <a href="#">📊 Stock Management</a>
-    <a href="#">🛒 Purchase Orders</a>
-    <a href="{% url 'order_history' %}">💰 Sales Orders</a>
+    <a href="#" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M4 19V5M4 19h17" />
+            <rect x="7" y="12" width="3" height="5" />
+            <rect x="13" y="8" width="3" height="9" />
+            <rect x="19" y="4" width="2" height="13" />
+        </svg>
+        Stock Management
+    </a>
+
+    <a href="#" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 4h18v16H3zM3 9h18M8 4v5M16 4v5" />
+            <path d="m8 14 2 2 5-5" />
+        </svg>
+        Purchase Orders
+    </a>
+
+    <a href="{% url 'order_history' %}" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5" />
+        </svg>
+        Sales Orders
+    </a>
 
     <p class="menu-title">MANAGEMENT</p>
 
-    <a href="#">📈 Reports</a>
-    <a href="#">⚙️ Settings</a>
+    <a href="#" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M4 19V5M4 19h17" />
+            <path d="m7 15 4-4 3 2 5-7" />
+        </svg>
+        Reports
+    </a>
 
+    <a href="#" class="menu-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3" />
+            <path
+                d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.5.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.5-.9l-1.7.6-1.4-2.4 1.4-1.1a8 8 0 0 1 0-1.8L6.3 12l1.4-2.4 1.7.6a8 8 0 0 1 1.5-.9l.3-1.8H14l.3 1.8a8 8 0 0 1 1.5.9l1.7-.6 1.4 2.4-1.4 1.1a8 8 0 0 1-.1 1.9Z" />
+        </svg>
+        Settings
+    </a>
+</div>
+
+<!-- Top navbar -->
+<div class="top-navbar">
+    <div class="topbar-brand">InventoryPro</div>
+
+    <div class="topbar-actions">
+        <button type="button" class="topbar-icon-btn" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+                <path d="M10 21h4" />
+            </svg>
+            <span class="notification-dot"></span>
+        </button>
+
+        <!-- <a href="#" class="profile-btn">
+            <span class="profile-avatar">U</span>
+            <span class="profile-name">Profile</span>
+        </a> -->
+
+        <a href="{% url 'logout' %}" class="logout-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M10 17l5-5-5-5M15 12H3" />
+                <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7" />
+            </svg>
+            <span class="logout-text">Logout</span>
+        </a>
+    </div>
 </div>

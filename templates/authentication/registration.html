@@ -855,6 +855,8 @@
                             <option value="Admin" {% if form_data.role == "Admin" %}selected{% endif %}>Admin</option>
                             <option value="Manager" {% if form_data.role == "Manager" %}selected{% endif %}>Manager</option>
                             <option value="Staff" {% if form_data.role == "Staff" %}selected{% endif %}>Staff</option>
+                            <option value="Sales" {% if form_data.role == "Sales" %}selected{% endif %}>Sales</option>
+
                         </select>
                     </div>
                     {% if errors.role %}<span class="field-error">{{ errors.role.0 }}</span>{% endif %}

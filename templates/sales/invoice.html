@@ -6,322 +6,412 @@
 {% block extra_css %}
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f1f3f5;
+    color: #222;
+    padding: 32px 16px;
+    font-size: 13px;
+}
+
+.invoice-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 42px 48px;
+    background: #fff;
+    border: 1px solid #e1e4e8;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* Invoice heading */
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #222;
+}
+
+.brand h1 {
+    font-size: 30px;
+    letter-spacing: 1.5px;
+    color: #111;
+    font-weight: 800;
+}
+
+.brand p {
+    margin-top: 6px;
+    color: #777;
+    font-size: 12px;
+}
+
+.invoice-heading {
+    text-align: right;
+}
+
+.invoice-heading h2 {
+    font-size: 25px;
+    letter-spacing: 1px;
+    color: #111;
+    margin-bottom: 10px;
+}
+
+.invoice-heading p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 12px;
+}
+
+.status {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background: #edf7f0;
+    color: #247443;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Section headings and details */
+.section {
+    margin-top: 28px;
+}
+
+.section-title {
+    margin-bottom: 12px;
+    color: #333;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.detail-box {
+    height: 100%;
+    padding: 16px 18px;
+    border: 1px solid #e2e5e8;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.detail-box p {
+    margin: 7px 0;
+    color: #444;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.detail-box strong {
+    color: #222;
+}
+
+/* Products table */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+thead {
+    display: table-header-group;
+}
+
+th {
+    padding: 12px 10px;
+    background: #f4f5f6;
+    border-top: 1px solid #d9dde1;
+    border-bottom: 1px solid #cfd4d9;
+    color: #333;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+td {
+    padding: 13px 10px;
+    border-bottom: 1px solid #e5e7e9;
+    color: #333;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.text-right {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.product-name {
+    color: #222;
+    font-weight: 600;
+}
+
+.sku {
+    margin-top: 4px;
+    color: #777;
+    font-size: 10px;
+}
+
+/* Totals */
+.summary {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 22px;
+}
+
+.summary-box {
+    width: 290px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 0;
+    color: #555;
+    font-size: 12px;
+}
+
+.summary-row strong {
+    color: #222;
+}
+
+.total-row {
+    margin-top: 5px;
+    padding-top: 13px;
+    border-top: 2px solid #222;
+    color: #111;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.total-row span:last-child {
+    color: #111;
+}
+
+/* Payment and notes */
+.payment-box {
+    padding: 15px 17px;
+    border: 1px solid #e2e5e8;
+    border-radius: 4px;
+    background: #fff;
+    color: #444;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.notes {
+    margin-top: 8px;
+    color: #555;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.footer {
+    margin-top: 34px;
+    padding-top: 17px;
+    border-top: 1px solid #d9dde1;
+    color: #666;
+    font-size: 11px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* Print / Save as PDF */
+.actions {
+    max-width: 900px;
+    margin: 18px auto 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+button {
+    padding: 11px 18px;
+    border: 0;
+    border-radius: 5px;
+    background: #303030;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+button:hover {
+    background: #1f1f1f;
+}
+
+.error {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    color: #b42318;
+    text-align: center;
+}
+
+/* Responsive screen layout */
+@media (max-width: 650px) {
     body {
-        font-family: Arial, sans-serif;
-        background: #f3f4f6;
-        color: #1f2937;
-        padding: 30px 15px;
+        padding: 12px 8px;
     }
 
     .invoice-container {
-        max-width: 900px;
-        margin: auto;
-        background: white;
-        padding: 40px;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        padding: 24px 16px;
     }
 
     .top-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 20px;
-        border-bottom: 2px solid #e5e7eb;
-        padding-bottom: 25px;
-    }
-
-    .brand h1 {
-        font-size: 28px;
-        color: #111827;
-    }
-
-    .brand p {
-        color: #6b7280;
-        margin-top: 7px;
-        font-size: 13px;
+        flex-direction: column;
+        gap: 18px;
     }
 
     .invoice-heading {
-        text-align: right;
-    }
-
-    .invoice-heading h2 {
-        font-size: 30px;
-        color: #2563eb;
-        margin-bottom: 10px;
-    }
-
-    .invoice-heading p {
-        font-size: 13px;
-        margin: 5px 0;
-        color: #4b5563;
-    }
-
-    .status {
-        display: inline-block;
-        padding: 6px 12px;
-        border-radius: 20px;
-        background: #dcfce7;
-        color: #15803d;
-        font-size: 12px;
-        font-weight: bold;
-        margin-top: 8px;
-    }
-
-    .section {
-        margin-top: 30px;
-    }
-
-    .section-title {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 15px;
-        color: #111827;
+        text-align: left;
     }
 
     .details-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 25px;
-    }
-
-    .detail-box {
-        background: #f9fafb;
-        padding: 18px;
-        border-radius: 7px;
-    }
-
-    .detail-box p {
-        font-size: 13px;
-        margin: 9px 0;
-        line-height: 1.5;
-        overflow-wrap: anywhere;
-    }
-
-    .detail-box strong {
-        color: #374151;
-    }
-
-    .business-details {
-        display: none;
-    }
-
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 600px;
-    }
-
-    th {
-        background: #f3f4f6;
-        color: #374151;
-        font-size: 12px;
-        text-align: left;
-        padding: 14px 10px;
-    }
-
-    td {
-        padding: 15px 10px;
-        border-bottom: 1px solid #e5e7eb;
-        font-size: 13px;
-    }
-
-    .text-right {
-        text-align: right;
-    }
-
-    .product-name {
-        font-weight: bold;
-        color: #111827;
-    }
-
-    .sku {
-        color: #6b7280;
-        font-size: 11px;
-        margin-top: 5px;
-    }
-
-    .summary {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 25px;
+        grid-template-columns: 1fr;
+        gap: 14px;
     }
 
     .summary-box {
-        width: 280px;
-    }
-
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        font-size: 14px;
-    }
-
-    .total-row {
-        border-top: 2px solid #111827;
-        margin-top: 5px;
-        padding-top: 15px;
-        font-size: 19px;
-        font-weight: bold;
-        color: #2563eb;
-    }
-
-    .payment-box {
-        background: #f9fafb;
-        padding: 18px;
-        border-radius: 7px;
-        font-size: 14px;
-    }
-
-    .notes {
-        white-space: pre-wrap;
-        overflow-wrap: anywhere;
-        color: #4b5563;
-        margin-top: 10px;
-        font-size: 13px;
-    }
-
-    .footer {
-        border-top: 1px solid #e5e7eb;
-        margin-top: 35px;
-        padding-top: 20px;
-        text-align: center;
-        color: #6b7280;
-        font-size: 12px;
-        line-height: 1.7;
+        width: 100%;
     }
 
     .actions {
-        max-width: 900px;
-        margin: 20px auto;
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
+        padding: 0 8px;
+    }
+}
+
+/* Clean A4 invoice output */
+@media print {
+    @page {
+        size: A4;
+        margin: 12mm;
     }
 
-    button {
-        padding: 12px 20px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
+    html,
+    body {
+        width: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        color: #111;
+        font-size: 11px;
     }
 
-    .print-btn {
-        background: #2563eb;
-        color: white;
+    .sidebar,
+    .actions {
+        display: none !important;
     }
 
-    .print-btn:hover {
-        background: #1d4ed8;
+    .main-content {
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 0 !important;
+        width: 100% !important;
     }
 
-    .error {
-        max-width: 900px;
-        margin: 50px auto;
-        padding: 30px;
-        background: white;
-        border-radius: 8px;
-        text-align: center;
-        color: #dc2626;
+    .invoice-container {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
 
-    @media (max-width: 600px) {
-        body {
-            padding: 12px 8px;
-        }
-
-        .invoice-container {
-            padding: 20px 15px;
-        }
-
-        .top-section {
-            flex-direction: column;
-        }
-
-        .invoice-heading {
-            text-align: left;
-        }
-
-        .details-grid {
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-
-        .summary-box {
-            width: 100%;
-        }
-
-        .actions {
-            padding: 0 8px;
-        }
+    .top-section {
+        padding-bottom: 16px;
+        border-bottom: 1.5px solid #222;
+        break-inside: avoid;
     }
 
-    /* PRINT STYLES */
-    @media print {
-
-        /* Hide sidebar */
-        .sidebar {
-            display: none !important;
-        }
-
-        /* Remove sidebar reserved space */
-        .main-content {
-            margin-left: 0 !important;
-            padding: 0 !important;
-            min-height: auto;
-        }
-
-        body {
-            background: white;
-            padding: 0;
-            margin: 0;
-        }
-
-        .invoice-container {
-            max-width: 100%;
-            width: 100%;
-            box-shadow: none;
-            border-radius: 0;
-            padding: 15px;
-        }
-
-        .actions {
-            display: none !important;
-        }
-
-        .status {
-            border: 1px solid #15803d;
-        }
-
-        .detail-box,
-        .payment-box,
-        th {
-            print-color-adjust: exact;
-            -webkit-print-color-adjust: exact;
-        }
-
-        @page {
-            size: A4;
-            margin: 12mm;
-        }
+    .section {
+        margin-top: 20px;
+        break-inside: avoid;
     }
+
+    .details-grid {
+        gap: 14px;
+    }
+
+    .detail-box,
+    .payment-box {
+        padding: 12px;
+        background: #fff !important;
+        border: 1px solid #d9dde1;
+    }
+
+    .table-wrapper {
+        overflow: visible !important;
+    }
+
+    table {
+        width: 100% !important;
+        min-width: 0 !important;
+        table-layout: fixed;
+    }
+
+    th,
+    td {
+        padding: 8px 7px;
+        font-size: 10px;
+        overflow-wrap: anywhere;
+    }
+
+    tr {
+        break-inside: avoid;
+    }
+
+    .summary {
+        margin-top: 16px;
+        break-inside: avoid;
+    }
+
+    .summary-box {
+        width: 260px;
+    }
+
+    .status,
+    th {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .footer {
+        margin-top: 24px;
+        padding-top: 12px;
+    }
+}
 </style>
-
 {% endblock %}
 
 
