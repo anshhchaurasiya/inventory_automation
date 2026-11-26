@@ -1,4 +1,3 @@
-
 from decimal import Decimal
 
 from django.contrib.auth.decorators import login_required
@@ -18,27 +17,11 @@ from sales.models import CartItem
 from sales.models import Purchase
 from sales.models import PurchaseItem
 
-from sales.serializer import PurchaseSerializer,ProductSearchSerializer,AddToCartSerializer,CartItemSerializer,PurchaseItemSerializer, UpdateCartSerializer,CustomerDetailsSerializer,CheckoutSerializer
+from sales.serializer import PurchaseSerializer,ProductSearchSerializer,AddToCartSerializer,CartItemSerializer,PurchaseItemSerializer
+from sales.serializer import UpdateCartSerializer,CustomerDetailsSerializer,CheckoutSerializer
 
 import json
 from django.http import JsonResponse
-
-@login_required()
-def order_history(request):
-    order_history=Purchase.objects.all().order_by("-purchase_date")
-    return render(request,"sales/orders_history_page.html",{"order_history":order_history})
-
-@login_required()
-def order_details(request,purchase_id):
-    order_details = get_object_or_404(
-        Purchase.objects.prefetch_related('items__product'),
-        id=purchase_id,
-        user=request.user
-    )
-
-    return render(request, 'sales/order_details.html', {
-        "order_details":order_details
-    })
 
 
 @login_required()
