@@ -1,5 +1,5 @@
 from .cart_methods import (
-    address,
+    customer_details,
     invoice_page,
     cart_page,
     search_product,
@@ -8,8 +8,6 @@ from .cart_methods import (
     update_cart_item,
     remove_cart_item,
     checkout,
-    purchase_history,
-    purchase_detail,
 )
 from .order_history import (
     order_history,
@@ -17,7 +15,7 @@ from .order_history import (
 )
 
 __all__ = [
-    "address",
+    "customer_details",
     "invoice_page",
     "cart_page",
     "search_product",
@@ -26,8 +24,6 @@ __all__ = [
     "update_cart_item",
     "remove_cart_item",
     "checkout",
-    "purchase_history",
-    "purchase_detail",
     "order_history",
     "order_details",
 ]
