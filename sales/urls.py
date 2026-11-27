@@ -50,22 +50,7 @@ urlpatterns = [
         views.checkout,
         name='checkout'
     ),
-
-    # PURCHASE HISTORY
-    path(
-        'purchases/',
-        views.purchase_history,
-        name='purchase-history'
-    ),
-
-    # PURCHASE DETAILS
-    path(
-        'purchases/<int:purchase_id>/',
-        views.purchase_detail,
-        name='purchase-detail'
-    ),
-
-    path('address/',views.address,name='address'),
+    path('customer-details/',views.customer_details,name='customer_details'),
     path('invoice/',views.invoice_page,name="invoice"),
     path('orders/', views.order_history, name='order_history'),
     path('orders/<int:purchase_id>/', views.order_details, name='order_details'),

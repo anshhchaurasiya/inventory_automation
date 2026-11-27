@@ -25,7 +25,7 @@ from django.http import JsonResponse
 
 
 @login_required()
-def address(request):
+def customer_details(request):
     print(float(request.GET.get('total')),"next",request.GET.get('total_quantity'))
     context={'total':request.GET.get('total'),
              'total_quantity':request.GET.get('total_quantity')}
@@ -599,56 +599,3 @@ def checkout(request):
         status=status.HTTP_201_CREATED
     )
 
-
-# =====================================================
-# PURCHASE HISTORY
-# =====================================================
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def purchase_history(request):
-
-    purchases = Purchase.objects.filter(
-        user=request.user
-    ).prefetch_related(
-        'items__product'
-    ).order_by('-purchase_date')
-
-    serializer = PurchaseSerializer(
-        purchases,
-        many=True
-    )
-    return Response(
-        {
-            "status": "success",
-            "message": "Purchase history retrieved successfully",
-            "data": serializer.data
-        },
-        status=status.HTTP_200_OK
-    )
-
-
-# =====================================================
-# PURCHASE DETAILS
-# =====================================================
-# not using this code  (below)
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def purchase_detail(request, purchase_id):
-
-    purchase = get_object_or_404(
-        Purchase.objects.prefetch_related('items__product'),
-        id=purchase_id,
-        user=request.user
-    )
-
-    serializer = PurchaseSerializer(purchase)
-
-    return Response(
-        {
-            "status": "success",
-            "message": "Purchase details retrieved successfully",
-            "data": serializer.data
-        },
-        status=status.HTTP_200_OK
-    )

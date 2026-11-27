@@ -11,5 +11,6 @@ class ProductSearchSerializer(serializers.ModelSerializer):
             'name',
             'sku',
             'price',
-            'stock_quantity'
+            'stock_quantity',
+            'gst'
         ]
