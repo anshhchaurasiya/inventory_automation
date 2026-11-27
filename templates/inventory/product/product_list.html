@@ -267,6 +267,12 @@
         white-space: nowrap;
     }
 
+    .product-gst {
+        color: #616161;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
     /* Stock Badges */
 
 
@@ -492,7 +498,9 @@
                             ₹{{ product.price }}
                         </td>
 
-                        <td>0</td>
+                        <td class="product-gst">
+                            {{product.gst}}
+                        </td>
 
                         <td>
                             {% if product.stock_quantity > 0 %}

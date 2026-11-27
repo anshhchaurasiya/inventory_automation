@@ -13,6 +13,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'category',
             'supplier',
             'price',
+            'gst',
             'stock_quantity'
         ]
 
@@ -41,6 +42,12 @@ class ProductSerializer(serializers.ModelSerializer):
             )
         return value
 
+    def validate_gst(self,value):
+        if value<0:
+            raise serializers.ValidationError(
+                "Stock quantity cannot be negative."
+            )
+        return value
 
 
 
