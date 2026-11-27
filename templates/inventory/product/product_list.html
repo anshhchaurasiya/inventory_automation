@@ -269,25 +269,7 @@
 
     /* Stock Badges */
 
-    .badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 5px 10px;
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: 500;
-        white-space: nowrap;
-    }
 
-    .in-stock {
-        background: #c9f7d5;
-        color: #176c35;
-    }
-
-    .out-of-stock {
-        background: #fce4e4;
-        color: #b42318;
-    }
 
     /* Empty State */
 
@@ -513,21 +495,11 @@
                         <td>0</td>
 
                         <td>
-
                             {% if product.stock_quantity > 0 %}
-
-                            <span class="badge in-stock">
-                                {{ product.stock_quantity }} units
-                            </span>
-
+                            {{ product.stock_quantity }} units
                             {% else %}
-
-                            <span class="badge out-of-stock">
-                                0 (Out of stock)
-                            </span>
-
+                            0 (Out of stock)
                             {% endif %}
-
                         </td>
 
                     </tr>
