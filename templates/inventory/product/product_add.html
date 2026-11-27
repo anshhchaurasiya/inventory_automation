@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 {% block title %}Add New Product{% endblock %}
@@ -202,7 +201,7 @@
         font-size: 14px;
         outline: none;
         transition: border-color 0.2s ease,
-                    box-shadow 0.2s ease;
+            box-shadow 0.2s ease;
     }
 
     .form-group input::placeholder {
@@ -306,7 +305,7 @@
         cursor: pointer;
         border: 1px solid transparent;
         transition: background 0.2s ease,
-                    border-color 0.2s ease;
+            border-color 0.2s ease;
     }
 
     .btn-secondary {
@@ -442,9 +441,8 @@
 
         <div class="success-message" role="alert">
 
-            <svg width="20" height="20" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
 
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <path d="m9 11 3 3L22 4"></path>
@@ -504,13 +502,8 @@
                                         Product Name <span class="required">*</span>
                                     </label>
 
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        placeholder="e.g. Wireless Ergonomic Mouse"
-                                        required
-                                    >
+                                    <input type="text" id="name" name="name" placeholder="e.g. Wireless Ergonomic Mouse"
+                                        required>
 
                                 </div>
 
@@ -523,13 +516,7 @@
                                         SKU / Item Code <span class="required">*</span>
                                     </label>
 
-                                    <input
-                                        type="text"
-                                        id="sku"
-                                        name="sku"
-                                        placeholder="e.g. SKU-98124"
-                                        required
-                                    >
+                                    <input type="text" id="sku" name="sku" placeholder="e.g. SKU-98124" required>
 
                                 </div>
 
@@ -552,9 +539,9 @@
 
                                             {% for cat in categories %}
 
-                                                <option value="{{ cat.id }}">
-                                                    {{ cat.name }}
-                                                </option>
+                                            <option value="{{ cat.id }}">
+                                                {{ cat.name }}
+                                            </option>
 
                                             {% endfor %}
 
@@ -583,9 +570,9 @@
 
                                             {% for sup in suppliers %}
 
-                                                <option value="{{ sup.id }}">
-                                                    {{ sup.name }}
-                                                </option>
+                                            <option value="{{ sup.id }}">
+                                                {{ sup.name }}
+                                            </option>
 
                                             {% endfor %}
 
@@ -598,7 +585,7 @@
 
                                 <!-- Price -->
 
-                                <div class="form-group full-width">
+                                <div class="form-group ">
 
                                     <label for="price">
                                         Price <span class="required">*</span>
@@ -608,18 +595,19 @@
 
                                         <span class="input-prefix">₹</span>
 
-                                        <input
-                                            type="number"
-                                            id="price"
-                                            name="price"
-                                            step="0.01"
-                                            min="0"
-                                            placeholder="0.00"
-                                            required
-                                        >
+                                        <input type="number" id="price" name="price" step="0.01" min="0"
+                                            placeholder="0.00" required>
 
                                     </div>
 
+                                </div>
+                                
+                                <!-- GST -->
+                                <div class="form-group">
+                                    <label for="gst">GST (%) <span class="required">*</span></label>
+
+                                    <input type="number" id="gst" name="gst" step="0.01" min="0" max="100"
+                                        placeholder="e.g. 18.00" required>
                                 </div>
 
                             </div>
@@ -654,15 +642,8 @@
                                         <span class="required">*</span>
                                     </label>
 
-                                    <input
-                                        type="number"
-                                        id="stock"
-                                        name="stock_quantity"
-                                        min="0"
-                                        step="1"
-                                        placeholder="0"
-                                        required
-                                    >
+                                    <input type="number" id="stock" name="stock_quantity" min="0" step="1"
+                                        placeholder="0" required>
 
                                 </div>
 
@@ -675,12 +656,8 @@
                                         Reason
                                     </label>
 
-                                    <input
-                                        type="text"
-                                        id="Reason"
-                                        name="Reason"
-                                        placeholder="e.g. Initial stock addition"
-                                    >
+                                    <input type="text" id="Reason" name="Reason"
+                                        placeholder="e.g. Initial stock addition">
 
                                 </div>
 
@@ -703,11 +680,7 @@
 
                     <div class="form-actions">
 
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            onclick="window.history.back()"
-                        >
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back()">
                             Cancel
                         </button>
 
